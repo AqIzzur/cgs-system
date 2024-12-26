@@ -1,5 +1,5 @@
 #header{
-    background:linear-gradient(#E3FF00, #03AD00);
+    background:linear-gradient( #ffffff,#ffffff, #ffedcd );
     height: 768px;
 }
 .date{
@@ -58,7 +58,9 @@ animation: moveAnimation1 0.7s ease-in;
 
 /* Body */
 #body{
-    background-color: #03AD00;
+    background:linear-gradient(#ffedcd, #03AD00);
+    
+     /* background-color: #03AD00; */
 }
 .garis-welcome{
     width:40px;
