@@ -13,7 +13,7 @@ $tanggal = date('d-m-Y ');
                             <div class="date-circle me-3 d-flex justify-content-center align-items-center bg-white">
                                 <i class="fa fa-calendar-days fa-xl fa-fade"></i>
                             </div>
-                            <h4 class=" m-auto me-3 text-dark">{{ $tanggal }} </h4>
+                            <h4 class=" m-auto me-lg-3 text-dark">{{ $tanggal }} </h4>
                         </div>
                     </div>
                     <div class="col d-flex">
@@ -37,10 +37,11 @@ $tanggal = date('d-m-Y ');
                 </div>
             </div>
             
-            <div class="row button-sign">
+            <div class="row button-sign ">
                 <div class="col-12 d-flex justify-content-between ">
-                    <a href="#" class="btn btn-primary bg-opacity-50 fw-bold btn1 p-3 text-uppercase">Sign In</a>
-                    <a href="#" class="btn btn-primary bg-opacity-50 fw-bold btn2 p-3 text-uppercase">Sign Up</a>
+                    <a href="#" class="btn btn-primary bg-opacity-50 fw-bold btn1 py-2 px-3 text-uppercase text-decoration-none">
+                        <i class="fa fa-sign-in"></i> Sign In</a>
+                    <a href="#" class="btn btn-primary bg-opacity-50 fw-bold btn2 py-2 px-3 text-uppercase text-decoration-none"><i class="fa fa-user-plus"></i> Sign Up</a>
     
                 </div>
 
@@ -58,7 +59,7 @@ $tanggal = date('d-m-Y ');
     </div>
     <div class="row mt-5">
         <div class="col">
-            <div class="text-justify poppins-reguler text-white" style="font-size: 20px">"System Team Creative CGS" adalah sebuah sistem yang dirancang khusus untuk mempermudah proses pelaporan dan pengelolaan aktivitas kreatif di Cipta Graha Software. Sistem ini memungkinkan anggota tim untuk melaporkan progres pekerjaan mereka secara real-time, memantau status tugas yang sedang berjalan, serta berbagi feedback atau ide-ide baru secara efisien. Dengan fitur yang mudah digunakan dan integrasi yang seamless, sistem ini membantu meningkatkan koordinasi, transparansi, dan produktivitas dalam tim creative CGS, memastikan setiap proyek berjalan sesuai rencana dan memenuhi standar kualitas yang tinggi.</div>
+            <div class="text-justify poppins-reguler text-dark" style="font-size: 20px"><span class="text-bg-warning">System Team Creative CGS</span> adalah sebuah sistem yang dirancang khusus untuk mempermudah proses pelaporan dan pengelolaan aktivitas kreatif di Cipta Graha Software. Sistem ini memungkinkan anggota tim untuk melaporkan progres pekerjaan mereka secara real-time, memantau status tugas yang sedang berjalan, serta berbagi feedback atau ide-ide baru secara efisien. Dengan fitur yang mudah digunakan dan integrasi yang seamless, sistem ini membantu meningkatkan koordinasi, transparansi, dan produktivitas dalam tim creative CGS, memastikan setiap proyek berjalan sesuai rencana dan memenuhi standar kualitas yang tinggi.</div>
         </div>
     </div>
     <div class="row button-asset mt-5">
@@ -72,17 +73,65 @@ $tanggal = date('d-m-Y ');
 </div>
 </section>
 
-<section id="img-slider">
-    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+<section id="img-slider" class="pb-3">
+    <div class="container py-4">
+
+        <!-- Image Slider -->
+        <div class="slider-container ">
+            <div class="swiper-container image-slider img-slide">
+                <div class="swiper-wrapper ">
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            <img class="img-responsive" src="{{ asset('asset/image/20.jpg') }}" alt="alternative">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            <img class="img-responsive" src="{{ asset('asset/image/21.jpg') }}" alt="alternative">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            <img class="img-responsive" src="{{ asset('asset/image/22.jpg') }}" alt="alternative">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            <img class="img-responsive" src="{{ asset('asset/image/23.jpg') }}" alt="alternative">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            <img class="img-responsive" src="{{ asset('asset/image/24.jpg') }}" alt="alternative">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="image-container">
+                            <img class="img-responsive" src="{{ asset('asset/image/25.jpg') }}" alt="alternative">
+                        </div>
+                    </div>
+                </div> <!-- end of swiper-wrapper -->
+            </div> <!-- end of swiper container -->
+        </div> <!-- end of slider-container -->
+        <!-- end of image slider -->
+    </div>
+
+    {{-- <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="{{ asset('asset/image/20.jpg') }}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="{{ asset('asset/image/21.jpg') }}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+            <img src="{{ asset('asset/image/22.jpg') }}" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ asset('asset/image/22.jpg') }}" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ asset('asset/image/22.jpg') }}" class="d-block w-100" alt="...">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -93,18 +142,18 @@ $tanggal = date('d-m-Y ');
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
-      </div>
+      </div> --}}
 </section>
 
 <section id="footer" class="">
     <div class="container">
     <div class="row py-4">
-        <div class="col">
+        <div class="col-lg-6 col-md-12">
             <img class="logo-cgs2 rounded" src="{{ asset('asset/image/logo-cgs.png') }}" alt="">
             <h2 class="poppins-regular mt-3 text-white" style="font-size: 20px">Cipta Graha Software - Solusi Terbaik Bisnis Anda</h2>
             <h4 class="text-white" style="font-size:12px">Perum Wiratama 1 No.4, Pekuncen, Kec. Wiradesa <br> Kabupaten Pekalongan, Jawa Tengah 51153</h4>
         </div>
-        <div class="col d-flex justify-content-end flex-column">
+        <div class="col-lg-6 col-md-12 d-flex justify-content-end flex-column">
             <iframe class="ms-auto text-end rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.032481053019!2d109.6257864749962!3d-6.886712893112283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70265ac7f7b3cd%3A0x8231cc2a3cee2797!2sCV.%20Cipta%20Graha%20Software!5e0!3m2!1sid!2sid!4v1735145506031!5m2!1sid!2sid" 
             width="305" 
             height="150.4" 

@@ -20,6 +20,7 @@
 .text-utama1{
     font-size: 70px;
     animation: moveAnimation 0.7s ease-in;
+    margin-top: 3rem;
 }
 @keyframes moveAnimation {
     0% { transform: translateX(-200px); }
@@ -41,7 +42,7 @@
 }
     
 .button-sign{
-    margin-top: 10rem;
+    margin-top: 15rem;
 }
 .logo-cgs1:hover{
     /* width: 300px; Lebar gambar */
@@ -51,8 +52,10 @@
 }
 .btn1{
 animation: moveAnimation 0.7s ease-in;
+font-size: 25px;
 }
 .btn2{
+  font-size: 25px;
 animation: moveAnimation1 0.7s ease-in;    
 }
 
@@ -62,11 +65,29 @@ animation: moveAnimation1 0.7s ease-in;
     
      /* background-color: #03AD00; */
 }
+/* .text-detail{ */
+  /* text-decoration:; */
+/* } */
 .garis-welcome{
     width:40px;
     height: 3px;
     color: black;
 }
+
+.img-slide{
+  border: #ffffff solid 6px;
+  border-radius: 15px;
+}
+#img-slider{
+  background-color: #03AD00;
+}
+.img-responsive{
+  height: 150px;
+  width: fit-content;
+  /* -left: 10px; */
+}
+/* .slider-container */
+
 /* Footer */
 #footer{
     background: black;

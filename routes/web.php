@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodolistController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,14 @@ Route::get('/', function () {
     return view('index');
 });
 Route::get('/todolist', [TodolistController::class, 'view'])->name('todolist.view');
+
+
+
+Route::get('/test-db', function () {
+    try {
+        DB::connection()->getPdo();
+        return 'Koneksi ke database berhasil!';
+    } catch (\Exception $e) {
+        return 'Gagal terhubung: ' . $e->getMessage();
+    }
+});

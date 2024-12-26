@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/style-custom.css')  }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/styles.css')  }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/swiper.css')  }}">
+
+
     <!-- Tambahkan jQuery CDN di <head> atau sebelum </body> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,6 +101,8 @@
     
 
 <script src="{{ asset('asset/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('asset/js/swiper.min.js') }}"></script>
+<script src="{{ asset('asset/js/scripts.js') }}"></script>
 <script src="{{ asset('asset/js/awesome/all.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
