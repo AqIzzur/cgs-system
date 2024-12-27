@@ -80,6 +80,34 @@
         </div>
     </div>
     @endif
+    @if (session('errorlogin'))
+    <div class="modal fade alert-modal" id="errorModalLogin" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger bg-primary-50">
+                    <h5 class="modal-title text-white " id="errorModalLabel">Pendaftaran Gagal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <i class="fa-solid fa-circle-exclamation fa-4x ms-3" style="color: #ff0000;"></i>
+                        </div>
+                        <div class="col ">
+                            <p class="text-uppercase my-auto fs-6 fw-bold mt-2">Pendaftaran gagal: </p> 
+                            <p> {{ session('errorlogin') }}</p>
+
+                        </div>
+                        
+                    {{-- <p class="text-uppercase"></p> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger " data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <!-- Bootstrap JS -->
     
@@ -94,6 +122,10 @@
             // Cek session flash untuk modal error
             @if (session('error'))
                 var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            @endif
+            @if (session('errorlogin'))
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModalLogin'));
                 errorModal.show();
             @endif
         });

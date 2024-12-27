@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 
 Route::get('/', [MainController::class, 'view'])->name('main');
 Route::get('/login', [MainController::class, 'login'])->name('main.login');
+Route::post('/login/submit', [MainController::class, 'login_submit'])->name('main.login_submit');
 Route::get('/register', [MainController::class, 'register'])->name('main.register');
 Route::post('/register/save', [MainController::class, 'register_save'])->name('main.register_save');
 Route::get('/todolist', [TodolistController::class, 'view'])->name('todolist.view');

@@ -4,7 +4,7 @@
         <div class="row d-flex justify-content-center align-items-center vh-100">
             <div class="mt-5 p-4 col-md-5 col-sm-8 mx-auto bg-success bg-opacity-50 rounded">
                 <h2 class="text-center">Sign In</h2>
-                <form action="" method="post" class="">
+                <form action="{{ route('main.login_submit') }}" method="post" class="">
                     @csrf 
                     <div class="row my-4">
                         <div class="col-lg-12 mb-2">
@@ -30,7 +30,8 @@
                     </p>
                     <div class="d-flex justify-content-between">
                         <a href="/" class="text-decoration-none btn btn-secondary"><i class="fa fa-backward"></i> Back</a>
-                        <a href="/" class="text-decoration-none btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                        {{-- <a href="/" class="text-decoration-none "></a> --}}
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
                     </div>
                     
                 </form>
