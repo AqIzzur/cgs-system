@@ -2,13 +2,12 @@
 @section('content')
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center vh-100">
-            <div class="mt-5 p-4 col-lg-5 col-sm-10 mx-auto bg-primary bg-opacity-50 rounded">
+            <div class="mt-5 p-4 col-md-5 col-sm-8 mx-auto bg-success bg-opacity-50 rounded">
                 <h2 class="text-center">Sign In</h2>
                 <form action="" method="post" class="">
                     @csrf 
-
                     <div class="row my-4">
-                        <div class="col-lg-3 mb-2">
+                        <div class="col-lg-12 mb-2">
 
                             <label for="user" class="fs-5 fw-bold text-dark">Email :</label>
                         </div>
@@ -18,7 +17,7 @@
                         </div>
                     </div>
                     <div class="row my-4">
-                        <div class="col-lg-3 mb-2 ">
+                        <div class="col-lg-12 mb-2 ">
                             <label for="password" class="fs-5 fw-bold  text-dark">Password :</label>
                         </div>
                         <div class="col">
@@ -26,6 +25,9 @@
 
                         </div>
                     </div>
+                    <p class="text-center text-white mt-3">
+                        Don't have an account? <a href="{{ route('main.register') }}" class="text-decoration-none text-primary"> Register</a>
+                    </p>
                     <div class="d-flex justify-content-between">
                         <a href="/" class="text-decoration-none btn btn-secondary"><i class="fa fa-backward"></i> Back</a>
                         <a href="/" class="text-decoration-none btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Login</a>

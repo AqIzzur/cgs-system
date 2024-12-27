@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('school_name');
             $table->string('password');
             $table->string('password_confirmation');
-            $table->enum('role', ['admin', 'user'])->default('user');
-            $table->rememberToken();
+            $table->integer('role')->default('1');
+            // $table->rememberToken();
             $table->timestamps();
         });
     }

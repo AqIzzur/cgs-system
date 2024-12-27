@@ -41,7 +41,7 @@
                             <i class="ms-3 fa-solid fa-circle-check fa-4x" style="color: #63E6BE;"></i>
                         </div>
                         <div class="col ">
-                            <p class="text-uppercase my-auto fs-3 fw-bold mt-2">{{ session('success') }}</p>
+                            <p class="text-uppercase my-auto fs-5 fw-bold mt-2">{{ session('success') }}</p>
 
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                             <i class="fa-solid fa-circle-exclamation fa-4x ms-3" style="color: #ff0000;"></i>
                         </div>
                         <div class="col ">
-                            <p class="text-uppercase my-auto fs-3 fw-bold mt-2">{{ session('error') }}</p>
+                            <p class="text-uppercase my-auto fs-5 fw-bold mt-2">{{ session('error') }}</p>
 
                         </div>
                         

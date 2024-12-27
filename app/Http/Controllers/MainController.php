@@ -25,32 +25,67 @@ class MainController extends Controller
     public function register_save(Request $request){
         DB::beginTransaction();
         try{
-        $validated = $request->validate([
-            'FullName' => 'required|string|max:255',
-            'NickName' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'SchoolName' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+            $request->validate([
+                'FullName' => 'required|string|max:255',
+                'NickName' => 'required|string|max:255',
+                'email' => 'required|email|max:255  ',
+                'SchoolName' => 'required|string|max:255',
+                'password' => 'required|string|min:8',
+                'PasswordConfirmation' => 'required|string|same:password',
+            ]);
+// dd($request->all());
 
-        DB::table('user_account')->insert([
-            'full_name' => $validated['FullName'],
-            'nick_name' => $validated['NickName'],
-            'email' => $validated['email'],
-            'school_name' => $validated['SchoolName'],
-            'password' => Hash::make($validated['password']),
-            'password_confirmation' => $validated['password'],
-            // 'role' => 'user',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::commit();
-        return view('login')->with('success', 'Pendaftaran Berhasil');
-        // dd(session()->all());
+            DB::table('user_account')->insert([
+                'full_name' =>$request->FullName,
+                'nick_name' =>$request->NickName,
+                'email' =>$request->email,
+                'school_name' =>$request->SchoolName,
+                'password' => Hash::make($request->password),
+                'password_confirmation' => $request->PasswordConfirmation,
+                'role' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        } catch (\Exception $e) {
+            DB::commit();
+            return  redirect()->route('main.login')->with('success', 'Registration Successful');
+        }catch (\Exception $e){
             DB::rollback();
-            return redirect::back()->with('error', 'Input Failed');
+            // dd($e->getMessage());
+                return redirect::back()->with('error', 'Registration Failed', $e->getMessage());
         }
+
+        // DB::beginTransaction();
+        // try{
+        // $validated = $request->validate([
+        //     'FullName' => 'required|string|max:255',
+        //     'NickName' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:user_account,email',
+        //     'SchoolName' => 'required|string|max:255',
+        //     'password' => 'required|string|min:8|confirmed',
+        //     // 'PasswordConfirmation' => 'required|string|max:255',
+        // ]);
+
+        // DB::table('user_account')->insert([
+        //     'full_name' => $validated['FullName'],
+        //     'nick_name' => $validated['NickName'],
+        //     'email' => $validated['email'],
+        //     'school_name' => $validated['SchoolName'],
+        //     'password' => Hash::make($validated['password']),
+        //     // 'password_confirmation' => $validated['PasswordConfirmation'],
+        //     // 'role' => 'user',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+
+        // DB::commit();
+        // return  redirect()->route('login')->with('success', 'Registration Successful');
+        // // dd(session()->all());
+
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return redirect::back()->with('error', 'Registration Failed');
+        // }
     }
 }
