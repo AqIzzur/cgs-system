@@ -39,9 +39,9 @@ $tanggal = date('d-m-Y ');
             
             <div class="row button-sign ">
                 <div class="col-12 d-flex justify-content-between ">
-                    <a href="#" class="btn btn-primary bg-opacity-50 fw-bold btn1 py-2 px-3 text-uppercase text-decoration-none">
+                    <a href="/login" class="btn btn-primary bg-opacity-50 fw-bold btn1 py-2 px-3 text-uppercase text-decoration-none">
                         <i class="fa fa-sign-in"></i> Sign In</a>
-                    <a href="#" class="btn btn-primary bg-opacity-50 fw-bold btn2 py-2 px-3 text-uppercase text-decoration-none"><i class="fa fa-user-plus"></i> Sign Up</a>
+                    <a href="/register" class="btn btn-primary bg-opacity-50 fw-bold btn2 py-2 px-3 text-uppercase text-decoration-none"><i class="fa fa-user-plus"></i> Sign Up</a>
     
                 </div>
 
@@ -57,17 +57,18 @@ $tanggal = date('d-m-Y ');
             <hr class="border border-dark border-3 mx-auto" style="width: 35%; margin-top:-10px;">
         </div>
     </div>
+    
     <div class="row mt-5">
-        <div class="col">
+        <div class="col-lg-10 col-md-12 mx-auto">
             <div class="text-justify poppins-reguler text-dark" style="font-size: 20px"><span class="text-bg-warning">System Team Creative CGS</span> adalah sebuah sistem yang dirancang khusus untuk mempermudah proses pelaporan dan pengelolaan aktivitas kreatif di Cipta Graha Software. Sistem ini memungkinkan anggota tim untuk melaporkan progres pekerjaan mereka secara real-time, memantau status tugas yang sedang berjalan, serta berbagi feedback atau ide-ide baru secara efisien. Dengan fitur yang mudah digunakan dan integrasi yang seamless, sistem ini membantu meningkatkan koordinasi, transparansi, dan produktivitas dalam tim creative CGS, memastikan setiap proyek berjalan sesuai rencana dan memenuhi standar kualitas yang tinggi.</div>
         </div>
     </div>
-    <div class="row button-asset mt-5">
+    {{-- <div class="row button-asset mt-5">
         <div class="col-12 d-flex justify-content-between ">
             <a href="#" class="btn btn-secondary bg-opacity-50 fw-bold btn-aset p-3 text-uppercase">Asset</a>
             <a href="#" class="btn btn-secondary bg-opacity-50 fw-bold btn-hasil p-3 text-uppercase">Hasil</a>
 
-        </div>
+        </div> --}}
 
     </div>
 </div>

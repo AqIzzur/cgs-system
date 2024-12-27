@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodolistController;
+use App\Http\Controllers\MainController;
+
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -15,9 +17,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [MainController::class, 'view'])->name('main');
+Route::get('/login', [MainController::class, 'login'])->name('main.login');
+Route::get('/register', [MainController::class, 'register'])->name('main.register');
+Route::post('/register', [MainController::class, 'register_save'])->name('main.register-save');
 Route::get('/todolist', [TodolistController::class, 'view'])->name('todolist.view');
 
 
