@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_account', function (Blueprint $table) {
+        Schema::create('user_accounts', function (Blueprint $table) {
             $table->id('user_id');
             $table->string('full_name');
             $table->string('nick_name');
@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('school_name');
             $table->string('password');
             $table->string('password_confirmation');
-            $table->integer('role')->default('1');
+            $table->enum('role', ['user', 'admin'])->default('user');
             // $table->rememberToken();
+            $table->string('remember_token', 100)->nullable();
             $table->timestamps();
         });
     }

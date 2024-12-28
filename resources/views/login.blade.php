@@ -13,7 +13,9 @@
                         </div>
                         <div class="col">
                             <input type="email" name="email" id="user" class="form-control">
-
+                            @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row my-4">
@@ -22,7 +24,9 @@
                         </div>
                         <div class="col">
                             <input type="password" name="password" id="password" class="form-control">
-
+                            @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <p class="text-center text-white mt-3">
