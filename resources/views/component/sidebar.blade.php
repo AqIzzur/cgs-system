@@ -5,31 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
-    <link rel="icon" href="{{ asset('asset/image/cgs_team.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('asset/image/cgs_team.png') }}" type="image/x-icon">    
     {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('asset/css/style_sidebar.css') }}">
-    <body id="body-pd">
-        <header class="header" id="header">
-            <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-            <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
-        </header>
-        <div class="l-navbar" id="nav-bar">
-            <nav class="nav">
-                <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">BBBootstrap</span> </a>
-                    <div class="nav_list"> <a href="#" class="nav_link active"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a> <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a> <a href="#" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span> </a> <a href="#" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span> </a> <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a> <a href="#" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span> </a> </div>
-                </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
-            </nav>
-        </div>
-        <!--Container Main start-->
-        <div class="height-100 bg-light">
-            <h4>Main Components</h4>
-        </div>
-        <!--Container Main end-->
+    {{-- <link rel="stylesheet" href="{{ asset('asset/css/style_sidebar.css') }}"> --}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('bootstrap/fonts/icomoon/style.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/owl.carousel.min.css') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/style.css') }}">
+    <body>
+        
+    
+    <aside class="sidebar">
+        <div class="toggle">
+          <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+                <span></span>
+              </a>
+        </div>
+        <div class="side-inner">
+  
+          <div class="logo-wrap">
+            <div class="logo">
+              <span>C</span>
+            </div>
+            <span class="logo-text">Colorlib</span>
+          </div>
+            
+          <div class="search-form">
+            <form action="#">
+              <span class="wrap-icon">
+                <span class="icon-search2"></span>
+              </span>
+              <input type="text" class="form-control" placeholder="Search...">
+            </form>
+          </div>
+          <div class="nav-menu">
+            <ul>
+              <li class="active"><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-home2 mr-3"></span><span class="menu-text">Home</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-videocam mr-3"></span><span class="menu-text">Videos</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-book mr-3"></span><span class="menu-text">Books</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-shopping-cart mr-3"></span><span class="menu-text">Store</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-pie-chart mr-3"></span><span class="menu-text">Analytics</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-cog mr-3"></span><span class="menu-text">Settings</span></a></li>
+            </ul>
+          </div>
+        </div>
+        
+      </aside>
+      <main>
+        <div class="site-section">
+          <div class="container">
+            <div class="row justify-content-center">
+  
+  
+  
+  
+  
+            </div>
+          </div>
+        </div>  
+      </main>
+      <script src="{{ asset('bootstrap/js/jquery-3.3.1.min.js') }}"></script>
+      <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
+      <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+      <script src="{{ asset('bootstrap/js/main.js') }}"></script>
 
 
 
