@@ -1,8 +1,4 @@
-/* Template: Evolo - StartUp HTML Landing Page Template
-   Author: Inovatik
-   Created: June 2019
-   Description: Master CSS file
-*/
+
 
 /*****************************************
 Table Of Contents:
@@ -1526,7 +1522,7 @@ input[type='checkbox'] {
 /**********************************/
 /*     18. Back To Top Button     */
 /**********************************/
-a.back-to-top {
+/* a.back-to-top {
 	position: fixed;
 	z-index: 999;
 	right: 0.75rem;
@@ -1542,7 +1538,7 @@ a.back-to-top {
 
 a:hover.back-to-top {
 	background-color: #00a7bd; 
-}
+} */
 
 
 /***************************/
@@ -2182,3 +2178,6 @@ a:hover.back-to-top {
 	/* end of extra pages */
 }
 /* end of min-width width 1200px */
+
+
+

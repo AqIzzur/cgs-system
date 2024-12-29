@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get('/', [MainController::class, 'view'])->name('main');
+Route::get('/zr', [MainController::class, 'loginAdmin'])->name('main.login_admin');
+Route::post('/zr', [MainController::class, 'loginAdmin_submit'])->name('main.login_admin_submit');
 Route::get('/login', [MainController::class, 'login'])->name('main.login');
 Route::post('/login/submit', [MainController::class, 'login_submit'])->name('main.login_submit');
 Route::get('/register', [MainController::class, 'register'])->name('main.register');
@@ -31,18 +33,26 @@ Route::get('/todolist', [TodolistController::class, 'view'])->name('todolist.vie
 
 // Role Admin
 
+// Route::get('/example', function () {
+//     // $user = Auth::guard('user')->user();
+//     // dd($user); // Cek apakah user terdeteksi
+//     if (Auth::guard('user')->check()) {
+//         return 'User sudah login';
+//     } else {
+//         return 'User belum login';
+//     }
+// });
 
 // Route untuk user dengan role 'user'
-Route::middleware(['auth:user', 'role:user'])->group(function () {
-    Route::get('/user/dashboard', [UserController::class, 'view'])->name('users.view');
+Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
+    Route::get('/dashboard', [UserController::class, 'view'])->name('users.view');
+    Route::get('/logout', [UserController::class, 'logout']);
 });
 
 // Route untuk admin dengan role 'admin'
-Route::middleware(['auth:admin', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard',function(){
-                    dd(Auth::guard('user')->check());
-
-    }); 
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'view'])->name('admin.view'); 
+    Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     // [AdminController::class, 'view'])->name('admin.view');
 });
 Route::get('/test-db', function () {

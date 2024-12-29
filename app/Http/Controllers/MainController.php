@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;
-use App\Models\user_account;
+use App\Models\user;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Redirect;
 class MainController extends Controller
 {
     public function view(){
-        return view('index');
+        return view('index', ['title' => 'Main Page']);
     }
     public function login(){
-        return view('login');
+        return view('login', ['title' => 'Login User']);
     }
     public function login_submit(Request $request){
 
@@ -38,17 +38,34 @@ class MainController extends Controller
                     ->withInput();          // Kirim data input sebelumnya
             }
             // cek di table
-            $user_account = user_account::select('*')
+            $user_account = user::select('*')
             ->where('email', $request->email)
             ->where('role', '=', 'user')
             ->first();
             // dd($user_account->all());
             if($user_account){
-                if ($user_account && Hash::check($request->password, $user_account->password)) {
-                    Auth::guard('user')->login($user_account);
-                    return redirect('/user/dashboard')->with('success', 'Login berhasil!');
+                if (Hash::check($request->password, $user_account->password)) {
+                    echo "Email = ". $request->email. "<br> Password : $request->password";
+                    
+
+                    // echo "Email : ".$user_account->email.' Password : '.$user_account->password;
+                    // Auth::guard('user')->login($user_account);
+                    // if (Auth::guard('user')->check()) {
+                    //     dd('User berhasil login!');
+                    // } else {
+                    //     dd('Login gagal!');
+                    // }
+                    // $request->session()->regenerate();
+                    // return redirect('/example');
                     // dd(Auth::guard('user')->check());
-                    // echo "Email = ". $request->email. "<br> Password : $request->password";
+                    $cek = $user_account->role;
+                    if ($cek == 'user') {
+                        // Jika user biasa, login dan arahkan ke dashboard user
+                        // Auth::login($user_account->user_id);
+                        // $request->session()->regenerate();
+                        Auth::login($user_account);
+                        return redirect('/user/dashboard');
+                    }
                 }else{
 
                     return redirect()->back()->with(['errorlogin' => 'detail : Password salah!']);
@@ -60,9 +77,8 @@ class MainController extends Controller
 
     }
 
-
     public function register(){
-        return view('register');
+        return view('register', ['title' => 'Register User']);
     }
 
     public function register_save(Request $request){
@@ -95,7 +111,7 @@ class MainController extends Controller
                         ->withInput();          // Kirim data input sebelumnya
                 }
 
-            DB::table('user_accounts')->insert([
+            DB::table('tb_user')->insert([
                 'full_name' =>$request->input('FullName'),
                 'nick_name' =>$request->input('NickName'),
                 'email' =>$request->input('email'),
@@ -156,5 +172,41 @@ class MainController extends Controller
         //     DB::rollback();
         //     return redirect::back()->with('error', 'Registration Failed');
         // }
+    }
+    public function loginAdmin(){
+        return view('admin', ['title' => 'Login Admin']);
+    }
+    public function loginAdmin_submit(Request $request){
+        $cekLogin = validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ],[
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password Wajib diisi!',
+            'password.min:8' => 'Password minimal 8 karakter',
+        ]);
+        if ($cekLogin->fails()) {
+            return redirect()->back()
+                ->withErrors($cekLogin) // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+
+        $user = user::all('*')
+            ->where('email', $request->email)
+            ->where('role', '=', 'admin')
+            ->first();
+
+        if($user){
+            if(Hash::check($request->password, $user->password)){
+                // echo "Email = ". $request->email. "<br> Password : $request->password";
+                Auth::login($user);
+                return redirect('/admin/dashboard');
+            }else{
+                return redirect()->back()->with('errorAdmin','Password Salah!!');
+            }
+        }else{
+            return redirect()->back()->with('errorAdmin','Email Belum Terdaftar!!');
+        }
     }
 }

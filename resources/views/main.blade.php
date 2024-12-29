@@ -7,8 +7,8 @@
     <!-- Tambahkan token CSRF dalam request POST -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Team Cretive</title>
-    <link rel="stylesheet" href="">
+    <title>{{ $title }}</title>
+    <link rel="icon" href="{{ asset('asset/image/cgs_team.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/style-custom.css')  }}">
@@ -24,7 +24,7 @@
 
 
 </head>
-<body>
+<body class="bg-warning bg-opacity-50">
     @yield('content') 
     <!-- Alert Modal -->
     @if (session('success'))
@@ -108,6 +108,34 @@
         </div>
     </div>
     @endif
+    @if (session('errorAdmin'))
+    <div class="modal fade alert-modal" id="errorModalAdmin" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger bg-primary-50">
+                    <h5 class="modal-title text-white " id="errorModalLabel">Login Gagal</h5>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <i class="fa-solid fa-circle-exclamation fa-4x ms-3" style="color: #ff0000;"></i>
+                        </div>
+                        <div class="col ">
+                            <h3 class="text-uppercase my-auto  fw-bold mt-2">Login gagal: </h3> 
+                            <p class=""> Detail : <span class="text-primary">{{ session('errorAdmin') }}</span></p>
+
+                        </div>
+                        
+                    {{-- <p class="text-uppercase"></p> --}}
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-danger " data-bs-dismiss="modal">OK</button>
+                </div> --}}
+            </div>
+        </div>
+    </div>
+    @endif
 
     <!-- Bootstrap JS -->
     
@@ -128,6 +156,10 @@
                 var errorModal = new bootstrap.Modal(document.getElementById('errorModalLogin'));
                 errorModal.show();
             @endif
+            @if (session('errorAdmin'))
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModalAdmin'));
+                errorModal.show();
+            @endif
         });
     </script>
     
@@ -136,7 +168,7 @@
 <script src="{{ asset('asset/js/swiper.min.js') }}"></script>
 <script src="{{ asset('asset/js/scripts.js') }}"></script>
 <script src="{{ asset('asset/js/awesome/all.min.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 </body>
 </html>
 {{-- @izzur.akun1426 --}}
