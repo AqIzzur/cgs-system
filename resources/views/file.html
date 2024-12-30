@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom File Input</title>
+  <!-- <link rel="stylesheet" href="styles.css">
+    -->
+  <style>
+    /* Reset some basic styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100%;
+}
+
+/* Container for centering content */
+.container {
+  max-width: 600px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+/* Label styling */
+.file-label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: bold;
+}
+
+/* Container for file input and button */
+.file-input-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style for the hidden file input */
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;  /* Hide the default file input */
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Button styling */
+.file-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.file-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for image preview */
+.preview {
+  margin-top: 20px;
+}
+
+.img-thumbnail {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 5px;
+  display: none;  /* Hide initially */
+}
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <label for="file-input" class="file-label">Upload Gambar</label>
+  <div class="file-input-container">
+    <input type="file" id="file-input" class="file-input" onchange="previewImage(event)">
+    <button class="file-btn">Pilih File</button>
+  </div>
+  <div class="preview">
+    <img id="image-preview" src="" alt="Image Preview" class="img-thumbnail">
+  </div>
+</div>
+
+<script>
+  function previewImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      document.getElementById('image-preview').src = reader.result;
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
+
+</body>
+</html>

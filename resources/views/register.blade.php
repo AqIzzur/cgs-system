@@ -95,7 +95,7 @@
             <a href="{{ route('main.login') }}" class="account text-decoration-none">Have an Account?</a>
         </div>
     </div>
-    <form action="{{ route('main.register_save') }}" method="POST" autocomplete="off" class="form-right">
+    <form action="{{ route('main.register_save') }}" method="POST" autocomplete="off" class="form-right" enctype="multipart/form-data">
         @csrf
         <h2 class="text-uppercase">Registration form</h2>
         <div class="row">
@@ -113,6 +113,13 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
+        </div>
+        <div class="mb-3">
+            <label for="SchoolName">Your Phone Number</label>
+            <input type="text" class="input-field" name="PhoneNumber" >
+            @error('PhoneNumber')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="SchoolName">Your School</label>
@@ -137,9 +144,16 @@
                 @enderror
             </div>
             <div class="col-sm-6 mb-3">
-                <label for="PasswordConfirmation">Current Password</label>
+                <label for="PasswordConfirmation">Confirm Password</label>
                 <input type="password" name="PasswordConfirmation" id="PasswordConfirmation" class="input-field">
                 @error('PasswordConfirmation')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-sm-12 mb-3">
+                <label for="img_profile">Photo Profile</label>
+                <input type="file" name="img_profile" id="img_profile" class="input-field">
+                @error('img_profile')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>

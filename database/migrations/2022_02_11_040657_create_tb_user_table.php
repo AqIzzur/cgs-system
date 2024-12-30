@@ -19,9 +19,12 @@ return new class extends Migration
             $table->string('nick_name');
             $table->string('email')->unique();
             $table->string('school_name');
+            $table->string('no_hp');
             $table->string('password');
             $table->string('password_confirmation');
             $table->enum('role', ['user', 'admin'])->default('user');
+            $table->string('status')->default('active');
+            $table->string('img_profile')->nullable();
             // $table->rememberToken();
             $table->string('remember_token', 100)->nullable();
             $table->timestamps();

@@ -9,8 +9,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"> --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('asset/css/style_sidebar.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
@@ -22,7 +21,8 @@
     <link rel="stylesheet" href="{{ asset('bootstrap/css/owl.carousel.min.css') }}">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     
     <!-- Style -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/style.css') }}">
@@ -39,9 +39,9 @@
   
           <div class="logo-wrap">
             <div class="logo">
-              <span>C</span>
+              <img src="{{ asset('images/'. Auth::user()->img_profile) }}" alt="" class="img-profile-dashboard">
             </div>
-            <span class="logo-text">Colorlib</span>
+            <span class="logo-text">{{ Auth::user()->full_name }}</span>
           </div>
             
           <div class="search-form">
@@ -54,12 +54,12 @@
           </div>
           <div class="nav-menu">
             <ul>
-              <li class="active"><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-home2 mr-3"></span><span class="menu-text">Home</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-videocam mr-3"></span><span class="menu-text">Videos</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-book mr-3"></span><span class="menu-text">Books</span></a></li>
+              <li class="active"><a href="#" class="d-flex align-items-center"><i class="fa fa-home me-2"></i><span class="menu-text"> Home</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><i class="fa fa-list me-2"></i><span class="menu-text">Tugas</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><i class="fa fa-book me-2"></i><span class="menu-text">Laporan</span></a></li>
               <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-shopping-cart mr-3"></span><span class="menu-text">Store</span></a></li>
               <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-pie-chart mr-3"></span><span class="menu-text">Analytics</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-cog mr-3"></span><span class="menu-text">Settings</span></a></li>
+              <li><a href="#" class="d-flex align-items-center"><i class="fa fa-user me-2"></i><span class="menu-text">Settings</span></a></li>
             </ul>
           </div>
         </div>
@@ -229,12 +229,12 @@
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-{{-- <script src="{{ asset('asset/js/bootstrap.bundle.js') }}"></script> --}}
+<script src="{{ asset('asset/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('asset/js/awesome/all.min.js') }}"></script>
 {{-- <script src="{{ asset('asset/js/swiper.min.js') }}"></script>
 <script src="{{ asset('asset/js/scripts.js') }}"></script> --}}
-{{-- <script src="{{ asset('asset/js/awesome/all.min.js') }}"></script> --}}
 {{-- @endsection --}}
     </body>
     </html>

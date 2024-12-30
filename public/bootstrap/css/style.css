@@ -92,6 +92,13 @@ aside {
       position: relative;
       width: 100%;
       float: left; }
+      aside .side-inner .logo-wrap .logo .img-profile-dashboard{
+        width: 50px; /* Sesuaikan ukuran gambar */
+        height: 50px; /* Pastikan height sama dengan width */
+        border-radius: 50%; /* Membuat gambar menjadi bundar */
+        object-fit: cover;
+        border: #fff solid 3px;
+      }
       aside .side-inner .logo-wrap .logo {
         width: 50px;
         float: left;

@@ -82,15 +82,20 @@ class MainController extends Controller
     }
 
     public function register_save(Request $request){
+        // dd($request->all());
+        // dd($request->file('img_profile')); 
+
         DB::beginTransaction();
         try{
             $cekRegister = Validator::make($request->all(), [
                 'FullName' => 'required|string|max:255',
                 'NickName' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:user_accounts,email',
+                'email' => 'required|email|max:255|unique:tb_user,email',
+                'PhoneNumber' => 'required|string|min:10|unique:tb_user,no_hp',
                 'SchoolName' => 'required|string|max:255',
                 'password' => 'required|string|min:8',
                 'PasswordConfirmation' => 'required|string|same:password',
+                'img_profile' => 'image|mimes:jpeg, png, jpg|max:3048',
             ], [
                 // Pesan error dalam bahasa Indonesia
                 'FullName.required' => 'Nama lengkap wajib diisi.',
@@ -98,11 +103,17 @@ class MainController extends Controller
                 'email.required' => 'Email wajib diisi.',
                 'email.email' => 'Format email tidak valid.',
                 'email.unique' => 'Email sudah terdaftar.',
+                'PhoneNumber.required' => 'Nomor Hp Harus Diisi',
+                'PhoneNumber.unique' => 'Nomor Hp Sudah Digunakan',
+                'PhoneNumber.min:10' => 'Nomor Hp Minimal 10',
                 'SchoolName.required' => 'Nama sekolah wajib diisi.',
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
                 'PasswordConfirmation.required' => 'Konfirmasi password wajib diisi.',
                 'PasswordConfirmation.same' => 'Konfirmasi password harus sama dengan password.',
+                'img_profile.image' => 'Tipe File Bukan Gambar', 
+                'img_profile.mimes' => 'Tipe File Harus jpeg , png dan jpg', 
+                'img_profile.max' => 'Ukuran File maksimal 3MB', 
             ]);
 // dd($request->all());
                 if ($cekRegister->fails()) {
@@ -110,15 +121,20 @@ class MainController extends Controller
                         ->withErrors($cekRegister) // Kirim error ke view
                         ->withInput();          // Kirim data input sebelumnya
                 }
+                
+                $imageName = $request->NickName . time() . '.' . $request->img_profile->extension();
+                // $imagesave = 'images/'. $imageName ;
 
             DB::table('tb_user')->insert([
                 'full_name' =>$request->input('FullName'),
                 'nick_name' =>$request->input('NickName'),
                 'email' =>$request->input('email'),
+                'no_hp' =>$request->input('PhoneNumber'),
                 'school_name' =>$request->input('SchoolName'),
                 'password' => Hash::make($request->input('password')),
                 'password_confirmation' => $request->input('PasswordConfirmation'),
                 'role' => 'user',
+                'img_profile' => $imageName,
                 'created_at' => now(),
                 'updated_at' => now(),
                 // 'full_name' =>$request->FullName,
@@ -133,6 +149,8 @@ class MainController extends Controller
             ]);
 
             DB::commit();
+
+            $request->img_profile->move(public_path('images'), $imageName);
             return  redirect()->route('main.login')->with('success', 'Registration Successful');
         }catch (\Exception $e){
             DB::rollback();
