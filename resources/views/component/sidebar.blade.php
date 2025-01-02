@@ -6,83 +6,246 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
     <link rel="icon" href="{{ asset('asset/image/cgs_team.png') }}" type="image/x-icon">    
-    {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"> --}}
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"> --}}
     <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('bootstrap/fonts/icomoon/style.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/owl.carousel.min.css') }}">
-
-    <!-- Bootstrap CSS -->
-    {{-- <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/font-poppins.css') }}">
     
-    <!-- Style -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/style.css') }}">
-    <body>
-        
-    
-    <aside class="sidebar">
-        <div class="toggle">
-          <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
-                <span></span>
-              </a>
-        </div>
-        <div class="side-inner">
-  
-          <div class="logo-wrap">
-            <div class="logo">
-              <img src="{{ asset('images/'. Auth::user()->img_profile) }}" alt="" class="img-profile-dashboard">
-            </div>
-            <span class="logo-text">{{ Auth::user()->full_name }}</span>
-          </div>
-            
-          <div class="search-form">
-            <form action="#">
-              <span class="wrap-icon">
-                <span class="icon-search2"></span>
-              </span>
-              <input type="text" class="form-control" placeholder="Search...">
-            </form>
-          </div>
-          <div class="nav-menu">
-            <ul>
-              <li class="active"><a href="#" class="d-flex align-items-center"><i class="fa fa-home me-2"></i><span class="menu-text"> Home</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><i class="fa fa-list me-2"></i><span class="menu-text">Tugas</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><i class="fa fa-book me-2"></i><span class="menu-text">Laporan</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-shopping-cart mr-3"></span><span class="menu-text">Store</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-pie-chart mr-3"></span><span class="menu-text">Analytics</span></a></li>
-              <li><a href="#" class="d-flex align-items-center"><i class="fa fa-user me-2"></i><span class="menu-text">Settings</span></a></li>
-            </ul>
-          </div>
-        </div>
-        
-      </aside>
-      <main>
-        <div class="site-section">
-          <div class="container">
-            <div class="row justify-content-center">
-  
-  
-  
-  
-  
-            </div>
-          </div>
-        </div>  
-      </main>
-      <script src="{{ asset('bootstrap/js/jquery-3.3.1.min.js') }}"></script>
-      <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
-      <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-      <script src="{{ asset('bootstrap/js/main.js') }}"></script>
+    <style>
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1050;
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar .nav-link {
+            color: white;
+        }
+        .sidebar .nav-link span{
+            font-size: 18px;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #7398bd;
+            color: rgb(155, 252, 0);
+            border-right: 10px solid #0080ff;
+        }
+        .sidebar.closed {
+            transform: translateX(-100%);
+        }
+        .content {
+            margin-left: 250px;
+        }
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+        /* Overlay styling */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            z-index: 1049; /* Below sidebar */
+        }
+        .overlay.active {
+            display: block;
+        }
+        .sidebar_img{
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            overflow: hidden;
 
+        }
+        .btn-custom-dropdown:focus{
+            border: none;
+        }
+        @media (max-width:414px){
+            .sidebar_img{
+                margin-left: 20px
+            }
+            .w-fit-div{
+                width: fit-content;
+            }
+            .text-custom-sidebar{
+                font-size:14px !important;
+            }
+        }
+        @media (min-width:415px){
+            .sidebar_img{
+                margin-left: 20px;
+                /* width: 50px; */
+            }
+            .w-fit-div{
+                width: fit-content;
+            }
+            .text-custom-sidebar{
+                font-size:18px;
+            }
+        }
+        .active{
+            background-color: #63E6BE;
+            color: black;
+        }
+        .sidebar .active:hover{
+            background-color: #92ffde;
+            color: rgb(1, 80, 11)!important;
+            border-right: 10px solid #00ffb3;
+
+
+        }
+        .kedip{
+            animation: blink-animation 1.5s ease-in-out infinite;
+        }
+        @keyframes blink-animation {
+            0%, 100% {
+            opacity: 1; /* Tampilan penuh */
+        }
+        50% {
+            opacity: 0; /* Transparansi penuh */
+        }
+        }
+
+
+    </style>
+</head>
+    <body>
+        {{-- {{  }} --}}
+        @php
+            $img = Auth::user()->img_profile ?: 'default.png';
+        @endphp
+    
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div class="sidebar d-lg-flex flex-column  ">
+        <div class="mx-auto mt-4 rounded-circle border border-success border-4 w-fit-div">
+            <img src="{{ asset('images/profile/'. $img ) }}" alt="" class=" m-1 border border-primary border-3 sidebar_img rounded-circle">
+
+        </div>
+        <h4 class="text-center mt-3">{{ Auth::user()->full_name }}</h4>
+        <hr>
+        {{--  --}}
+        <nav class="nav flex-column">
+            <a class="nav-link @if($title == 'Dashboard Admin')active text-dark @endif  " href="{{ route('admin.view') }}">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-home  me-3"></i>
+                    </div>
+                    <div class="col">
+                        <span class="poppins-regular text-custom-sidebar">Home</span> 
+
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link" href="#">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-tasks me-3"></i>
+                    </div>
+                    <div class="col">
+                        <span class="poppins-regular text-custom-sidebar">Report Data</span> 
+
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link @if($title == 'Data Users')active text-dark @endif  " href="{{ route('users.absensi') }}">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-user-gear me-3"></i>
+
+                    </div>
+                    <div class="col">
+                        <span class="poppins-regular text-custom-sidebar">Users</span> 
+
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link" href="#">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-gear me-3"></i>
+
+                    </div>
+                    <div class="col">
+                <span class="poppins-regular text-custom-sidebar">Setting</span>
+                        
+                    </div>
+                </div>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Content -->
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border border-bottom">
+            <div class="container-fluid">
+                <button id="toggleSidebar" class="btn btn-transparent text-dark d-lg-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <span class="navbar-brand mb-0 h1 text-uppercase poppins-bold text-primary">CGS System</span>
+                <div class="dropdown">
+                    <a class="btn btn-custom-dropdown btn-transparent outline-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa fa-user"></i>
+                    </a>
+                  
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item text-danger" href="{{ route('admin.logout') }}"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                    </ul>
+                  </div>
+            </div>
+        </nav>
+        <div class="">
+            @yield('content_sidebar')
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const toggleSidebarButton = document.getElementById('toggleSidebar');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('overlay');
+
+        // Open sidebar
+        toggleSidebarButton.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        // Close sidebar by clicking on overlay
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    </script>
+      {{-- <script src="{{ asset('bootstrap/js/jquery-3.3.1.min.js') }}"></script> --}}
+      {{-- <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script> --}}
+      {{-- <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script> --}}
+      <script src="{{ asset('asset/js/bootstrap.bundle.js') }}"></script>
+      <script src="{{ asset('asset/js/awesome/all.min.js') }}"></script>
+      {{-- <script src="{{ asset('bootstrap/js/main.js') }}"></script> --}}
 
 
 

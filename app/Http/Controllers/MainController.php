@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;
 use App\Models\user;
+use App\Models\absensi;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -38,34 +39,49 @@ class MainController extends Controller
                     ->withInput();          // Kirim data input sebelumnya
             }
             // cek di table
-            $user_account = user::select('*')
+            $user_account  = user::select('*')
             ->where('email', $request->email)
             ->where('role', '=', 'user')
             ->first();
             // dd($user_account->all());
             if($user_account){
                 if (Hash::check($request->password, $user_account->password)) {
-                    echo "Email = ". $request->email. "<br> Password : $request->password";
-                    
+                        $absen1 = DB::table('absensi')
+                                        ->where('user_id', $user_account->user_id)
+                                        ->where('status_user', 'izin')
+                                        ->where('tanggal', date('Y-m-d'))
+                                        ->get();
+                        $absen2 = DB::table('absensi')
+                                        ->where('user_id', $user_account->user_id)
+                                        ->where('status_user', 'hadir')
+                                        ->where('tanggal', date('Y-m-d'))
+                                        ->get();
+                    // echo $absen->user_id;
+                                    // Jika sudah izin
+                                    if (!$absen1->isEmpty()) {
+                                        return redirect()->back()->with(['errorlogin' => 'Detail: Anda Sudah Izin!']);
+                                    } 
+                                    if ($absen2->isEmpty()) {      
+                                        Absensi::create([
+                                            'user_id' => $user_account->user_id,
+                                            'tanggal' => date('Y-m-d'),
+                                            'status_user'  => 'hadir',
+                                            'login_time' => date('H:i:s'),
+                                            'created_at' => now(),
+                                            'updated_at' => now(),
+                                        ]);
+                                    }
+                                    $time = \Carbon\Carbon::now();
+                                    $startTime = \Carbon\Carbon::createFromTime(7, 30, 0); // 07:30
+                                    $endTime = \Carbon\Carbon::createFromTime(17, 30, 0);
+                                    if (!$time->between($startTime, $endTime)) {
+                                        // dd('Waktu tidak valid', $time, $startTime, $endTime);
+                                        return redirect()->back()->with(['errorlogin' => 'detail : Login hanya diperbolehkan antara pukul 07:30 dan 17:30.']);
+                                    }
 
-                    // echo "Email : ".$user_account->email.' Password : '.$user_account->password;
-                    // Auth::guard('user')->login($user_account);
-                    // if (Auth::guard('user')->check()) {
-                    //     dd('User berhasil login!');
-                    // } else {
-                    //     dd('Login gagal!');
-                    // }
-                    // $request->session()->regenerate();
-                    // return redirect('/example');
-                    // dd(Auth::guard('user')->check());
-                    $cek = $user_account->role;
-                    if ($cek == 'user') {
-                        // Jika user biasa, login dan arahkan ke dashboard user
-                        // Auth::login($user_account->user_id);
-                        // $request->session()->regenerate();
-                        Auth::login($user_account);
-                        return redirect('/user/dashboard');
-                    }
+                                    // Loginkan user dan redirect ke dashboard
+                                    Auth::login($user_account);
+                                    return redirect('/user/dashboard');
                 }else{
 
                     return redirect()->back()->with(['errorlogin' => 'detail : Password salah!']);
@@ -96,6 +112,7 @@ class MainController extends Controller
                 'password' => 'required|string|min:8',
                 'PasswordConfirmation' => 'required|string|same:password',
                 'img_profile' => 'image|mimes:jpeg, png, jpg|max:3048',
+                'adress' => 'required|min:15',
             ], [
                 // Pesan error dalam bahasa Indonesia
                 'FullName.required' => 'Nama lengkap wajib diisi.',
@@ -112,8 +129,10 @@ class MainController extends Controller
                 'PasswordConfirmation.required' => 'Konfirmasi password wajib diisi.',
                 'PasswordConfirmation.same' => 'Konfirmasi password harus sama dengan password.',
                 'img_profile.image' => 'Tipe File Bukan Gambar', 
-                'img_profile.mimes' => 'Tipe File Harus jpeg , png dan jpg', 
+                'img_profile.mimes' => 'Tipe File Harus jpeg , png atau jpg', 
                 'img_profile.max' => 'Ukuran File maksimal 3MB', 
+                'adress.required' => 'Alamat Wajib Diisi!',
+                'adress.min' => 'Minimal Karakter 15',
             ]);
 // dd($request->all());
                 if ($cekRegister->fails()) {
@@ -121,8 +140,12 @@ class MainController extends Controller
                         ->withErrors($cekRegister) // Kirim error ke view
                         ->withInput();          // Kirim data input sebelumnya
                 }
+                if($request->img_profile){
+                    $imageName = $request->NickName . time(). '.' . $request->img_profile->extension();
+                }else{
+                    $imageName = null;
+                }
                 
-                $imageName = $request->NickName . time() . '.' . $request->img_profile->extension();
                 // $imagesave = 'images/'. $imageName ;
 
             DB::table('tb_user')->insert([
@@ -134,7 +157,8 @@ class MainController extends Controller
                 'password' => Hash::make($request->input('password')),
                 'password_confirmation' => $request->input('PasswordConfirmation'),
                 'role' => 'user',
-                'img_profile' => $imageName,
+                'alamat' => $request->input('adress'),
+                'img_profile' =>  $imageName,
                 'created_at' => now(),
                 'updated_at' => now(),
                 // 'full_name' =>$request->FullName,
@@ -149,47 +173,17 @@ class MainController extends Controller
             ]);
 
             DB::commit();
-
-            $request->img_profile->move(public_path('images'), $imageName);
+            if($request->img_profile){
+            $request->img_profile->move(public_path('images/profile'), $imageName);
             return  redirect()->route('main.login')->with('success', 'Registration Successful');
+            }else{
+                return  redirect()->route('main.login')->with('success', 'Registration Successful');
+            }
         }catch (\Exception $e){
             DB::rollback();
             // dd($e->getMessage());
             return redirect()->back()->with('errorlogin','detail :'. $e->getMessage());
         }
-
-        // DB::beginTransaction();
-        // try{
-        // $validated = $request->validate([
-        //     'FullName' => 'required|string|max:255',
-        //     'NickName' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:user_account,email',
-        //     'SchoolName' => 'required|string|max:255',
-        //     'password' => 'required|string|min:8|confirmed',
-        //     // 'PasswordConfirmation' => 'required|string|max:255',
-        // ]);
-
-        // DB::table('user_account')->insert([
-        //     'full_name' => $validated['FullName'],
-        //     'nick_name' => $validated['NickName'],
-        //     'email' => $validated['email'],
-        //     'school_name' => $validated['SchoolName'],
-        //     'password' => Hash::make($validated['password']),
-        //     // 'password_confirmation' => $validated['PasswordConfirmation'],
-        //     // 'role' => 'user',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-
-        // DB::commit();
-        // return  redirect()->route('login')->with('success', 'Registration Successful');
-        // // dd(session()->all());
-
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect::back()->with('error', 'Registration Failed');
-        // }
     }
     public function loginAdmin(){
         return view('admin', ['title' => 'Login Admin']);
@@ -219,9 +213,9 @@ class MainController extends Controller
             if(Hash::check($request->password, $user->password)){
                 // echo "Email = ". $request->email. "<br> Password : $request->password";
                 Auth::login($user);
-                return redirect('/admin/dashboard');
+                return redirect()->route('admin.view');
             }else{
-                return redirect()->back()->with('errorAdmin','Password Salah!!');
+                return redirect()->back()->withInput()->with('errorAdmin','Password Salah!!');
             }
         }else{
             return redirect()->back()->with('errorAdmin','Email Belum Terdaftar!!');

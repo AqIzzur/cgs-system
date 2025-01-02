@@ -185,3 +185,103 @@ $tanggal = date('d-m-Y ');
     </p>
     </div>
 </section>
+
+
+
+
+<tr>
+    <td class="bg-primary bg-opacity-25 poppins-bold"><span class="text-table ">{{ $loop->iteration }}</span></td>
+    <td><span class="text-table poppins-regular">{{ $data->full_name  }}</span></td>
+    <td class="{{ getColorByTime($data->login_time) }} fs-5 poppins-regular my-auto">
+      <span class="text-table">
+          @if ($data->login_time)
+          {{ \Carbon\Carbon::parse($data->login_time)->format('H:i') }}
+          @endif
+          @if ($data->login_time == null)
+          User Izin    
+          @endif
+      </span>
+  </td>
+    <td>
+      @if ($data->status_user == 'hadir')
+          <div class="text-table badge text-bg-primary p-2 text-secondary border border-primary border-2 bg-opacity-25 fs-5">
+              <span>Present</span>
+          </div>
+      @endif
+      @if ($data->status_user == 'izin')
+          <div class="text-table badge text-bg-danger p-2 text-secondary border border-danger border-2 bg-opacity-25 fs-5">
+              <span>absent</span>
+          </div>
+      @endif
+    </td>
+    <td>
+      @if ($data->status_user == 'izin')
+      <button class="btn btn-primary btn-custom-table" data-bs-target="#izin{{ $data->user_id }}" data-bs-toggle="modal"> Detail</button>                    
+      @endif
+      @if ($data->status_user == 'hadir')
+      <button class="btn btn-primary btn-custom-table" data-bs-target="#hadir{{ $data->user_id }}" data-bs-toggle="modal"> Detail</button>                    
+          
+      @endif
+    
+      {{-- Modal Detail Izin --}}
+      <div class="modal fade" id="izin{{ $data->user_id }}" aria-hidden="true" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header bg-primary bg-opacity-50">
+                  {{-- <h5 class="poppins-bold">User Izin</h5> --}}
+                  <button class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-lg-6">
+                          @php
+                              $img_izin  = $data->foto;
+                          @endphp
+                          {{-- <div class="img-ket"> --}}
+                              <img src="{{ asset('images/izin/' . $img_izin) }}" class="img-ket-custom rounded border border-primary border-3" alt="">
+                          {{-- </div> --}}
+
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="">
+                              <p class="fs-4 poppins-bold">{{ $data->full_name }}</p>
+                              <p class="fs-4 poppins-bold">{{ $data->tanggal }}</p>
+                              <p class="poppins-regular mb-1">Keterangan :</p>
+                              <div class="border border-info border-3 p-2 rounded">
+                                  <span class="text-muted">{{ $data->keterangan }}</span>
+                              </div>
+                              
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button data-bs-dismiss="modal" class="btn btn-primary">OK</button>
+              </div>
+          </div>
+      </div>
+      </div>
+
+      {{-- endModal --}}
+      {{-- Modal Detail Izin --}}
+      <div class="modal fade" id="hadir{{ $data->user_id }}" aria-hidden="true" tabindex="-1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header bg-primary bg-opacity-50">
+                  <h4 class="">Name User <span class="text-light">{{ $data->full_name }}</span></h4>
+                  <button class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                  <p class="fs-4 poppins-bold">{{ $data->tanggal }}</p>
+              </div>
+              <div class="modal-footer">
+                  
+              </div>
+          </div>
+      </div>
+      </div>
+
+      {{-- endModal --}}
+      </td>
+    {{-- <td></td> --}}
+  </tr>

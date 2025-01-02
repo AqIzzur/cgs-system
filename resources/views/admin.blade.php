@@ -14,7 +14,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="mb-2 text-muted" for="email">E-Mail Address</label>
-                                <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
                                 @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -27,7 +27,7 @@
                                         Forgot Password?
                                     </a> --}}
                                 </div>
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control" name="password" required value="{{ old('password') }}">
                                 @error('password')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror

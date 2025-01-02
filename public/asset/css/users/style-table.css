@@ -1,0 +1,67 @@
+textarea {
+  resize: none;
+}
+.table-custom {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .table-custom th {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+  .table-custom tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+  }
+
+  @media (min-width:414px) {
+    
+    .form-check .bulan{
+      font-size: 18px !important;
+    }
+    .filter-judul{
+      font-size: 22px !important;
+    }
+    .text-table{
+      font-size: 20px;
+    }.btn-custom-table{
+      font-size: 18px;
+    }
+    .table-custom th{
+      font-size: 18px;
+    }
+    /* td div.alert-custom{
+      /* background-color: #00f2fe; 
+      padding: 15px !important;
+      margin:0px;
+      width: fit-content !important;
+      height: 20px;
+
+    }
+    td div.alert-custom span{
+      margin-top: -15px !important;
+    } */
+  }
+
+  @media (max-width:414px){
+    .form-check .bulan{
+      font-size: 14px !important;
+
+    }
+    .filter-judul{
+      font-size: 18px !important;
+    }
+    .table-custom th{
+      font-size: 13px;
+    }
+    .text-table{
+      font-size: 12px !important;
+    }
+    .btn-custom-table{
+      width: fit-content;
+      font-size: 12px;
+    }
+
+  }

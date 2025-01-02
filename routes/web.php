@@ -46,13 +46,21 @@ Route::get('/todolist', [TodolistController::class, 'view'])->name('todolist.vie
 // Route untuk user dengan role 'user'
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'view'])->name('users.view');
-    Route::get('/logout', [UserController::class, 'logout']);
+    Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 });
 
 // Route untuk admin dengan role 'admin'
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'view'])->name('admin.view'); 
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::prefix('users')->group(function () {
+        Route::get('/absensi', [AdminController::class, 'absensi'])->name('users.absensi');
+        Route::post('/absensi', [AdminController::class, 'absensi_izin'])->name('users.absensi_save');
+        Route::post('/absensi/filter', [AdminController::class, 'filterAbsensi'])->name('filter.absensi');
+        Route::get('/tugas', [AdminController::class, 'tugas'])->name('users.tugas');
+        Route::get('/user', [AdminController::class, 'user'])->name('users.user');
+    });
     // [AdminController::class, 'view'])->name('admin.view');
 });
 Route::get('/test-db', function () {
