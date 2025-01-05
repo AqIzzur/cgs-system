@@ -61,6 +61,13 @@ class MainController extends Controller
                                     if (!$absen1->isEmpty()) {
                                         return redirect()->back()->with(['errorlogin' => 'Detail: Anda Sudah Izin!']);
                                     } 
+                                    $time = \Carbon\Carbon::now();
+                                    $startTime = \Carbon\Carbon::createFromTime(7, 30, 0); // 07:30
+                                    $endTime = \Carbon\Carbon::createFromTime(17, 30, 0);
+                                    if (!$time->between($startTime, $endTime)) {
+                                        // dd('Waktu tidak valid', $time, $startTime, $endTime);
+                                        return redirect()->back()->with(['errorlogin' => 'detail : Login hanya diperbolehkan antara pukul 07:30 sd 17:30.']);
+                                    }
                                     if ($absen2->isEmpty()) {      
                                         Absensi::create([
                                             'user_id' => $user_account->user_id,
@@ -71,13 +78,7 @@ class MainController extends Controller
                                             'updated_at' => now(),
                                         ]);
                                     }
-                                    $time = \Carbon\Carbon::now();
-                                    $startTime = \Carbon\Carbon::createFromTime(7, 30, 0); // 07:30
-                                    $endTime = \Carbon\Carbon::createFromTime(17, 30, 0);
-                                    if (!$time->between($startTime, $endTime)) {
-                                        // dd('Waktu tidak valid', $time, $startTime, $endTime);
-                                        return redirect()->back()->with(['errorlogin' => 'detail : Login hanya diperbolehkan antara pukul 07:30 dan 17:30.']);
-                                    }
+
 
                                     // Loginkan user dan redirect ke dashboard
                                     Auth::login($user_account);

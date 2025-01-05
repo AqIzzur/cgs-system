@@ -12,7 +12,7 @@
     <style>
         /* Sidebar styling */
         .sidebar {
-            width: 250px;
+            width: 200px;
             height: 100vh;
             background-color: #343a40;
             color: white;
@@ -34,7 +34,7 @@
             transform: translateX(-100%);
         }
         .content {
-            margin-left: 250px;
+            margin-left: 200px;
         }
         @media (max-width: 992px) {
             .sidebar {
@@ -100,7 +100,10 @@
                 width: fit-content;
             }
             .sidebar .nav-link span{
-            font-size: 18px;
+            font-size: 16px;
+        }
+        .dropdown-icon-user{
+            font-size: 16px;
         }
         }
         .active{
@@ -132,7 +135,7 @@
 </head>
 <body>
     @php
-            $img = Auth::user()->img_profile ?: 'default.png';
+            $img = Auth::user()->img_profile ?: 'default.jpg';
         @endphp
     
     <!-- Sidebar -->
@@ -142,7 +145,7 @@
             <img src="{{ asset('images/profile/'. $img ) }}" alt="" class="m-1 border border-primary border-3 sidebar_img rounded-circle">
 
         </div>
-        <h4 class="text-center mt-3">{{ Auth::user()->full_name }}</h4>
+        <h4 class="text-center mt-3" style="font-size: 14px">{{ Auth::user()->full_name }}</h4>
         <hr>
         {{--  --}}
         <nav class="nav flex-column">
@@ -157,17 +160,7 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link" href="#">
-                <div class="row">
-                    <div class="col-2">
-                        <i class="fa fa-file me-3"></i>
-                    </div>
-                    <div class="col">
-                        <span class="poppins-regular">Report Data</span> 
 
-                    </div>
-                </div>
-            </a>
             <a class="nav-link @if($title == 'Data Users')active text-dark @endif  " href="{{ route('admin.users') }}">
                 <div class="row">
                     <div class="col-2">
@@ -177,6 +170,30 @@
                     <div class="col">
                         <span class="poppins-regular">Users</span> 
 
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link" href="/user">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-icons me-3"></i>
+
+                    </div>
+                    <div class="col">
+                <span class="poppins-regular">Asset</span>
+                        
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link" href="/user">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-folder-closed me-3"></i>
+
+                    </div>
+                    <div class="col">
+                <span class="poppins-regular">Documentation</span>
+                        
                     </div>
                 </div>
             </a>
@@ -207,14 +224,14 @@
                 </button>
                 <span class="navbar-brand mb-0 h1 text-uppercase poppins-bold ">CGS System</span>
                 <div class="dropdown">
-                    <a class="btn btn-custom-dropdown btn-transparent outline-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fa fa-user fa-xl"></i>
+                    <a class="btn btn-custom-dropdown  btn-transparent outline-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa fa-user "></i>
                     </a>
                   
                     <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                      <li><a class="dropdown-item dropdown-icon-user" href="#">Action</a></li>
+                      <li><a class="dropdown-item dropdown-icon-user" href="#">Another action</a></li>
+                      <li><a class="dropdown-item dropdown-icon-user text-danger " href="{{ route('user.logout') }}"><i class="fa fa-sign-out"></i> Log Out</a></li>
                     </ul>
                   </div>
             </div>

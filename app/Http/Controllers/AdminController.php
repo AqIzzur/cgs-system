@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\absensi;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -13,26 +14,25 @@ use Illuminate\Support\Facades\Validator;
 class AdminController extends Controller
 {
     public function view(){
-        return view('admin.dashboard', ['title' => 'Dashboard Admin']);
+        return view('admin.dashboard', ['title' => 'Dashboard | Admin']);
     }
     public function users(){
-        return view('admin.users', ['title' => 'Data Users']);
+        return view('admin.users', ['title' => 'Data Users | Admin']);
 
     }
     public function absensi(){
         // dd();
         if(!request('month')){
-                $absensi = DB::table('absensi')
-                            ->select('absensi.*', 'tb_user.full_name')
-                            ->join('tb_user', 'tb_user.user_id', '=', 'absensi.user_id')
-                            ->orderBy('user_id', 'asc')
-                            ->paginate(10);
+                $absensi = Absensi::join('tb_user', 'tb_user.user_id', '=', 'absensi.user_id')
+                ->select('absensi.*', 'tb_user.*')
+                ->orderBy('tanggal', 'desc')
+                ->paginate(10);
                             // dd();
         }else{
             $query = Absensi::select('absensi.*', 'tb_user.full_name')
                             ->join('tb_user', 'tb_user.user_id', '=', 'absensi.user_id')
-                            ->orderBy('tanggal', 'desc')
-                            ->get();
+                            ->orderBy('tanggal', 'desc');
+                            // ->get();
                         // Filter berdasarkan bulan
                 if (request('month')) {
                     $query->whereIn('month', request('month'));
@@ -45,19 +45,41 @@ class AdminController extends Controller
                 // dd();
                 $absensi = $query->paginate(10);
         }
+        foreach($absensi as $absen_waktu){
+
+            $time = $absen_waktu->login_time;
+            $parsedTime = Carbon::parse($time); // Parse waktu menggunakan Carbon
+            $startTime = Carbon::createFromTime(7, 30); // 07:30
+            $endTime = Carbon::createFromTime(9, 30);   // 09:30
+            $waktu = $parsedTime->between($startTime, $endTime) ? 'text-success' : 'text-danger';
+        }
+
 
         $user_select = DB::table('tb_user')
                     ->where('status', 'active')
+                    ->where('role', 'user')
                     ->get();
         return view('admin.users.absen', [
-            'title' => 'Data Users',
+            'title' => 'Data Users | Admin',
             'menu' => 'absensi',
             'absensi_with_user' => $absensi,
-            'user' => $user_select,    
+            'user' => $user_select, 
+            'waktu' => $waktu,   
         ],
              );
     }
-
+    public function absensi_delete($id){
+        // dd($id);
+        $user = absensi::where('user_id', $id)
+                    ->where('tanggal' , date('Y-m-d'))
+                    ->first();
+        if ($user) {
+            $user->delete(); // Hapus data
+            return redirect()->back()->with('success', 'User berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('error', 'User tidak ditemukan.');
+        }
+    }
     public function absensi_izin(Request $request){
         // dd($request->all());
         DB::beginTransaction();
@@ -66,10 +88,17 @@ class AdminController extends Controller
 
             $cek_data = Validator::make($request->all(),[
                 'nama_user'     => 'required',
+                'dari_tanggal'  => 'required|date',
+                'sampai_tanggal'=> 'required|date|after_or_equal:dari_tanggal',
                 'keterangan'    => 'required|regex:/^(\w+\s+){3,}\w+$/',
                 'img_ket'       => 'required|image|mimes:jpeg, png, jpg|max:2048',
             ],[
                 'nama_user.required'    => 'Nama User Wajib Dipilih!',
+                'dari_tanggal.required' => 'Tanggal Harus Diisi!',
+                'dari_tanggal.date'     => 'Format Tanggal Tidak Sesuai!',
+                'sampai_tanggal.required'=> 'Tanggal Harus Diisi!',
+                'sampai_tanggal.date'   => 'Format Tanggal Tidak Sesuai!',
+                'sampai_tanggal.after_or_equal'=> 'Tanggal Harus Sesudah!',
                 'keterangan.required'   => 'Keterangan Wajib Diisi!!',
                 'keterangan.regex'      => 'Minimal 3 Kata',
                 'img_ket.required'      => 'Foto Bukti Wajib Di Upload!',
@@ -87,37 +116,40 @@ class AdminController extends Controller
                     ->withErrors($cek_data) // Kirim error ke view
                     ->withInput();          // Kirim data input sebelumnya
             }
+            $dari_tanggal   = Carbon::parse($request->dari_tanggal);
+            $sampai_tanggal = Carbon::parse($request->sampai_tanggal) ;
         // dd($request->all());
 
-            $cek_absen = DB::table('absensi')
-                        ->where('user_id', $request->user_id)
-                        ->where('tanggal', date('Y-m-d'))
-                        ->first();
+            // $cek_absen = DB::table('absensi')
+            //             ->where('user_id', $request->user_id)
+            //             ->where('tanggal', date('Y-m-d'))
+            //             ->first();
 
-            // dd();
+            // // dd();
 
-            if($cek_absen){
+            // if($cek_absen){
                 
-                return redirect()->back()->with('errorlogin', 'User Sudah Login');
-            }
+            //     return redirect()->back()->with('errorlogin', 'User Sudah Login');
+            // }
 
             $cari_nama = DB::table('tb_user')
                         ->where('user_id', $request->nama_user)
                         ->first();
                 // dd($cari_nama->);
                 $imageName = $cari_nama->nick_name . time(). '.' . $request->img_ket->extension();
-
+                while ($dari_tanggal   <= $sampai_tanggal) {
             DB::table('absensi')->insert([
                 'user_id'       => $request->nama_user,
-                'tanggal'       => date('Y-m-d'),
+                'tanggal'       => $dari_tanggal->toDateString(),
                 'status_user'   => 'izin',
                 'foto'          => $imageName,
                 'keterangan'    => $request->keterangan,
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ]);
-
+            $dari_tanggal->addDay(); // Tambah 1 hari
             DB::commit();
+        }
             $request->img_ket->move(public_path('images/izin/'), $imageName);
             return redirect()->back()->with('success', 'Izin Berhasil Diinput');
         }catch (\Exception $e){
@@ -129,7 +161,7 @@ class AdminController extends Controller
 
     public function tugas(){
         return view('admin.users.tugas', [
-            'title' => 'Data Users',
+            'title' => 'Data Users | Admin',
             'menu' => 'tugas',
         ]);
     }
@@ -138,7 +170,7 @@ class AdminController extends Controller
 
 
         return view('admin.users.user', [
-            'title' => 'Data Users',
+            'title' => 'Data Users | Admin',
             'menu' => 'user',
             'users' => $show_users->get(),
         ]);
@@ -179,7 +211,29 @@ class AdminController extends Controller
     // dd($user);
         // echo $absensi;
     // return view('admin.users.absen', compact('absensi'));
-}
+}   
+
+// Asset
+    public function asset(){
+        return view('admin.asset', ['title' => 'Asset | Admin']);
+    }
+    public function dokumentasi(){
+        return view('admin.dokumentasi', ['title' => 'Dokumentasi | Admin']);
+    }
+    public function dokumentasi_input(){
+        return view('admin.dokumentasi.input', [
+            'title' => 'Dokumentasi | Admin',
+            'menu'  => 'input',
+        ]);
+
+    }
+    public function dokumentasi_data(){
+        return view('admin.dokumentasi.data', [
+            'title' => 'Dokumentasi | Admin',
+            'menu'  => 'data',
+        ]);
+
+    }
 
 
 

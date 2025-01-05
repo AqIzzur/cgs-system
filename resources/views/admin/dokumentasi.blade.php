@@ -1,18 +1,18 @@
 @extends('component.sidebar')
 @section('content_sidebar')
 <style>
-    .offcanvas{
-        width: 50% !important;
-    }
-    .active1{
-      background-color: #5ea0dd;
-      color: #fff;
-      border-radius: 7px;
-    }
-    .active1:hover{
-      background-color: #66b3fa;
-      color: rgb(255, 225, 225);
-    }
+  .offcanvas{
+      width: 50% !important;
+  }
+  .active1{
+    background-color: #5ea0dd;
+    color: #fff;
+    border-radius: 7px;
+  }
+  .active1:hover{
+    background-color: #66b3fa;
+    color: rgb(255, 225, 225);
+  }
 
 </style>
 <nav class="navbar  navbar-expand-lg ">
@@ -30,14 +30,14 @@
           <ul class="navbar-nav justify-content-end flex-grow-1  ">
             <li class="nav-item ">
               <a class="nav-link text-custom-sidebar
-              @if($menu == 'user')active1 @endif
-               p-2" aria-current="page" href="{{ route('users.user') }}">
+              @if($menu == 'input')active1 @endif
+               p-2" aria-current="page" href="{{ route('dokumentasi.input') }}">
                 <div class="row">
                   <div class="col-2">
-                    <i class="fa fa-users"></i>
+                    <i class="fa-solid fa-square-plus"></i>
                   </div>
                   <div class="col poppins-regular ">
-                    User
+                    Input Data
                     {{-- active1 --}}
                   </div>
                 </div>
@@ -45,34 +45,19 @@
             </li>
             <li class="nav-item ">
               <a class="nav-link text-custom-sidebar
-              @if($menu == 'absensi')active1 @endif
-               p-2" aria-current="page" href="{{ route('users.absensi') }}">
+              @if($menu == 'data')active1 @endif
+               p-2" aria-current="page" href="{{ route('dokumentasi.data') }}">
                 <div class="row">
                   <div class="col-2">
-                    <i class="fa fa-clipboard-user"></i>
+                    {{-- <i class="fa fa-folder-closed "></i> --}}
+                    <i class="fa fa-folder-open "></i>
                   </div>
                   <div class="col poppins-regular ">
-                    Data Absensi 
+                    Documentation
                     {{-- active1 --}}
                   </div>
                 </div>
                 </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link text-custom-sidebar
-              @if($menu == 'tugas')active1 @endif
-               p-2" href="{{ route('users.tugas') }}">
-                <div class="row">
-                  <div class="col-2">
-                    <i class="fa fa-tasks me-2"></i>
-
-                  </div>
-                  <div class="col poppins-regular ">
-                    Tugas
-                  </div>
-                </div>
-              </a>
             </li>
         
           </ul>
@@ -81,7 +66,5 @@
       </div>
     </div>
   </nav>  
-
-@yield('content')
-  
+ @yield('content_dokumentasi')
 @endsection

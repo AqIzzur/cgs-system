@@ -16,7 +16,7 @@
     <style>
         /* Sidebar styling */
         .sidebar {
-            width: 250px;
+            width: 200px;
             height: 100vh;
             background-color: #343a40;
             color: white;
@@ -29,9 +29,7 @@
         .sidebar .nav-link {
             color: white;
         }
-        .sidebar .nav-link span{
-            font-size: 18px;
-        }
+
         .sidebar .nav-link:hover {
             background-color: #7398bd;
             color: rgb(155, 252, 0);
@@ -41,7 +39,7 @@
             transform: translateX(-100%);
         }
         .content {
-            margin-left: 250px;
+            margin-left: 200px;
         }
         @media (max-width: 992px) {
             .sidebar {
@@ -88,6 +86,9 @@
             .text-custom-sidebar{
                 font-size:14px !important;
             }
+            .sidebar .nav-link span{
+                font-size: 14px;
+            }
         }
         @media (min-width:415px){
             .sidebar_img{
@@ -98,8 +99,14 @@
                 width: fit-content;
             }
             .text-custom-sidebar{
-                font-size:18px;
+                font-size:14px !important;
             }
+            .sidebar .nav-link span{
+            font-size: 16px;
+        }
+        .dropdown-icon-user{
+            font-size: 16px ;
+        }
         }
         .active{
             background-color: #63E6BE;
@@ -140,11 +147,11 @@
             <img src="{{ asset('images/profile/'. $img ) }}" alt="" class=" m-1 border border-primary border-3 sidebar_img rounded-circle">
 
         </div>
-        <h4 class="text-center mt-3">{{ Auth::user()->full_name }}</h4>
+        <h4 class="text-center mt-3" style="font-size: 14px">{{ Auth::user()->full_name }}</h4>
         <hr>
         {{--  --}}
         <nav class="nav flex-column">
-            <a class="nav-link @if($title == 'Dashboard Admin')active text-dark @endif  " href="{{ route('admin.view') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Dashboard |Admin')active text-dark @endif  " href="{{ route('admin.view') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-home  me-3"></i>
@@ -155,7 +162,7 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link text-custom-sidebar" href="#">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-tasks me-3"></i>
@@ -166,7 +173,7 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link @if($title == 'Data Users')active text-dark @endif  " href="{{ route('users.absensi') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Data Users | Admin')active text-dark @endif  " href="{{ route('users.absensi') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-user-gear me-3"></i>
@@ -178,7 +185,31 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link text-custom-sidebar @if($title == 'Asset | Admin')active text-dark @endif" href="{{ route('admin.asset') }}">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-icons me-3"></i>
+
+                    </div>
+                    <div class="col">
+                <span class="poppins-regular text-custom-sidebar">Asset</span>
+                        
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link text-custom-sidebar @if($title == 'Dokumentasi | Admin')active text-dark @endif" href="{{ route('dokumentasi.data') }}">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fa fa-folder-closed me-3"></i>
+
+                    </div>
+                    <div class="col">
+                <span class="poppins-regular text-custom-sidebar">Dokumentasi</span>
+                        
+                    </div>
+                </div>
+            </a>
+            <a class="nav-link text-custom-sidebar" href="#">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-gear me-3"></i>

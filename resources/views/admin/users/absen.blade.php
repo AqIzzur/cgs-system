@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('asset/css/users/style-modal.css') }}">
 <div class="container">
     <div class="row my-3">
-        <div class="col">
+        <div class="col-lg-3 text-lg-end">
             <h2 class="poppins-bold ">Data Absensi</h2>
 
         </div>
@@ -23,19 +23,36 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('users.absensi_save') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="nama_user" class="poppins-bold mb-2">Nama User :</label>
                                 <select class="form-select poppins-regular" id="nama_user" name="nama_user">
                                     {{-- <option selected value="">Pilih Nama User</option> --}}
                                     @foreach ($user as $users)
-                                    <option value="{{ $users->user_id }}" {{ old('keterangan') == $users->user_id ? 'selected' : '' }} >{{ $users->full_name }}</option>
+                                    <option value="{{ $users->user_id }}" {{ old('nama_user') == $users->user_id ? 'selected' : '' }} >{{ $users->full_name }}</option>
                                     @endforeach
                                   </select>
                                   @error('nama_user')
                                   <span class="text-danger">{{ $message }}</span>
                                   @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="dari_tanggal" class="poppins-bold mb-2"> Tanggal Izin :</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="date" id="sampai_tanggal" name="dari_tanggal" class="form-control" value="{{ old('dari_tanggal') }}">
+                                        @error('sampai_tanggal')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="col">
+                                        <input type="date" id="sampai_tanggal" name="sampai_tanggal" class="form-control" value="{{ old('sampai_tanggal') }}">
+                                        @error('sampai_tanggal')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="keterangan" class="poppins-bold mb-2">Keterangan :</label>
@@ -54,7 +71,8 @@
                             
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                        <button class="btn btn-secondary btn-custom-table" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+                        <button type="submit" class="btn btn-primary btn-custom-table"><i class="fa fa-save"></i> Save</button>
                     </form>
                     </div>
                 </div>
@@ -161,8 +179,8 @@
                 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
-              <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save changes</button>
+              <button type="button" class="btn btn-secondary btn-custom-table" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+              <button type="submit" class="btn btn-primary btn-custom-table"><i class="fa fa-save"></i> Save changes</button>
             </form>
 
             </div>
@@ -170,139 +188,147 @@
         </div>
       </div>
       {{-- End --}}
-      @php
-      // Fungsi untuk menentukan warna berdasarkan waktu
-      function getColorByTime($time)
-      {
-        $parsedTime = \Carbon\Carbon::parse($time); // Parse waktu menggunakan Carbon
-        $startTime = \Carbon\Carbon::createFromTime(7, 30); // 07:30
-        $endTime = \Carbon\Carbon::createFromTime(9, 30);   // 09:30
-
-        return ($parsedTime->between($startTime, $endTime)) ? 'text-success' : 'text-danger';
-      }
-        @endphp
-    <div class="table-responsive">
-        <table class="table table-hover table-custom">
-          <thead>
-            <tr>
-              <th class="poppins-regular" width="30px" >No</th>
-              <th class="poppins-regular">Nama</th>
-              <th class="poppins-regular">Login Time</th>
-              <th class="poppins-regular">Status</th>
-              <th class="poppins-regular">Menu</th>
-              {{-- <th class="poppins-regular">#</th> --}}
-            </tr>
-          </thead>
-          <tbody>
-              @forelse ($absensi_with_user as $data)
-            <tr>
-              <td class="bg-primary bg-opacity-25 poppins-bold"><span class="text-table ">{{ $loop->iteration }}</span></td>
-              <td><span class="text-table poppins-regular">{{ $data->full_name  }}</span></td>
-              {{-- <td><span class="text-table poppins-regular">{{ $data->tanggal  }}</span></td> --}}
-
-              <td class="{{ getColorByTime($data->login_time) }} fs-5 poppins-regular my-auto">
-                <span class="text-table">
-                    @if ($data->login_time)
-                    {{ \Carbon\Carbon::parse($data->login_time)->format('H:i') }}
-                @else
-                    User Izin
-                @endif
-                
-                </span>
-            </td>
-              <td>
-                @if ($data->status_user == 'hadir')
-                    <div class="text-table badge text-bg-primary p-2 text-secondary border border-primary border-2 bg-opacity-25 fs-5">
-                        <span>Present</span>
-                    </div>
-                @endif
-                @if ($data->status_user == 'izin')
-                    <div class="text-table badge text-bg-danger p-2 text-secondary border border-danger border-2 bg-opacity-25 fs-5">
-                        <span>absent</span>
-                    </div>
-                @endif
-              </td>
-              <td>
-                @if ($data->status_user == 'izin')
-                <button class="btn btn-primary btn-custom-table" data-bs-target="#izin{{ $data->user_id }}" data-bs-toggle="modal"> Detail</button>                    
-                @endif
-                @if ($data->status_user == 'hadir')
-                <button class="btn btn-primary btn-custom-table" data-bs-target="#hadir{{ $data->user_id }}" data-bs-toggle="modal"> Detail</button>                    
+      
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="table-responsive">
+            <table class="table table-hover table-custom">
+              <thead>
+                <tr>
+                  <th class="poppins-regular" width="30px" >No</th>
+                  <th class="poppins-regular">Nama</th>
+                  <th class="poppins-regular">Tanggal</th>
+                  <th class="poppins-regular">Login Time</th>
+                  <th class="poppins-regular">Status</th>
+                  <th class="poppins-regular">Menu</th>
+                  {{-- <th class="poppins-regular">#</th> --}}
+                </tr>
+              </thead>
+              <tbody>
+                  @forelse ($absensi_with_user as $data)
+                <tr>
+                  <td class="bg-primary bg-opacity-25 poppins-bold"><span class="text-table ">{{ $loop->iteration }}</span></td>
+                  <td><span class="text-table poppins-regular">{{ $data->full_name  }}</span></td>
+                  <td><span class="text-table poppins-regular">{{ \Carbon\Carbon::parse($data->tanggal)->format('d F Y') }}
+                    {{-- {{ $data->tanggal->format('d/m/Y') }} --}}
+                </span></td>
+                  {{-- <td><span class="text-table poppins-regular">{{ $data->tanggal  }}</span></td> --}}
+    
+                  <td class="{{ $waktu }} fs-5 poppins-regular my-auto">
+                    <span class="text-table">
+                        @if ($data->login_time)
+                        {{ \Carbon\Carbon::parse($data->login_time)->format('H:i') }}
+                    @else
+                        User Izin
+                    @endif
                     
-                @endif
-              
-                {{-- Modal Detail Izin --}}
-                <div class="modal fade" id="izin{{ $data->user_id }}" aria-hidden="true" tabindex="-1">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary bg-opacity-50">
-                            {{-- <h5 class="poppins-bold">User Izin</h5> --}}
-                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </span>
+                </td>
+                  <td>
+                    @if ($data->status_user == 'hadir')
+                        <div class="text-table badge text-bg-primary p-2 text-secondary border border-primary border-2 bg-opacity-25 text-table poppins-bold">
+                            <span>Present</span>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    @php
-                                        $img_izin  = $data->foto    ;
-                                    @endphp
-                                    {{-- <div class="img-ket"> --}}
-                                        <img src="{{ file_exists(public_path('images/izin/' . $img_izin)) ? asset('images/izin/' . $img_izin) : asset('default-image.png') }}" class="img-ket-custom rounded border border-primary border-3" alt="">
-                                    {{-- </div> --}}
+                    @endif
+                    @if ($data->status_user == 'izin')
+                        <div class="text-table badge text-bg-danger poppins-bold p-2 text-secondary border border-danger border-2 bg-opacity-25 ">
+                            <span>Absent</span>
+                        </div>
+                    @endif
+                  </td>
+                  <td>
+                    @if ($data->status_user == 'izin')
+                    <button class="btn btn-primary btn-custom-table" data-bs-target="#izin{{ $data->absent_id }}" data-bs-toggle="modal"> Detail</button>                    
+                    @endif
+                    @if ($data->status_user == 'hadir')
+                    <button class="btn btn-danger btn-custom-table" data-bs-target="#hadir{{ $data->absent_id }}" data-bs-toggle="modal"> Hapus Izin</button>                    
+                        
+                    @endif
+                  
+                    {{-- Modal Detail Izin --}}
+                    <div class="modal fade" id="izin{{ $data->absent_id }}" aria-hidden="true" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary bg-opacity-50">
+                                {{-- <h5 class="poppins-bold">User Izin</h5> --}}
+                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                            <img src="{{ asset('images/izin/'. $data->foto) }}" class="img-ket-custom rounded border border-primary border-3" alt="">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="fs-4 poppins-bold">{{ $data->full_name }}</p>
 
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="">
-                                        <p class="fs-4 poppins-bold">{{ $data->full_name }}</p>
-                                        <p class="fs-4 poppins-bold">{{ $data->tanggal }}</p>
-                                        <p class="poppins-regular mb-1">Keterangan :</p>
-                                        <div class="border border-info border-3 p-2 rounded">
-                                            <span class="text-muted">{{ $data->keterangan }}</span>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="fs-6 text-primary text-end poppins-bold">{{ $data->tanggal }}</p>
+
+                                                </div>
+                                            </div>
+                                            <p class="poppins-regular mb-1">Keterangan :</p>
+                                            <div class="border border-info border-3 p-2 rounded">
+                                                <span class="text-muted">{{ $data->keterangan }}</span>
+                                            </div>
+                                            
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button data-bs-dismiss="modal" class="btn btn-primary">OK</button>
-                        </div>
-                    </div>
-                </div>
-                </div>
-
-                {{-- endModal --}}
-                {{-- Modal Detail Izin --}}
-                <div class="modal fade" id="hadir{{ $data->user_id }}" aria-hidden="true" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary bg-opacity-50">
-                            <h4 class="">Name User <span class="text-light">{{ $data->full_name }}</span></h4>
-                            <button class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="fs-4 poppins-bold">{{ $data->tanggal }}</p>
-                        </div>
-                        <div class="modal-footer">
-                            
+                            <div class="modal-footer">
+                                <button data-bs-dismiss="modal" class="btn btn-primary btn-custom-table">OK</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                </div>
-
-                {{-- endModal --}}
-                </td>
-              {{-- <td></td> --}}
-            </tr>
-            
-              @empty
-            <tr>
-                <td colspan="6"><p class="text-center poppins-regular">-- No Data Available --</p> </td>
-            </tr>
-            @endforelse
-          </tbody>
-        </table>
-        <div>
-            {{ $absensi_with_user->links('vendor.pagination.simple') }}
+                    </div>
+    
+                    {{-- endModal --}}
+                    {{-- Modal Detail Izin --}}
+                    <div class="modal fade" id="hadir{{ $data->absent_id }}" aria-hidden="true" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary bg-opacity-50">
+                                <h4 class="">Name User <span class="text-light">{{ $data->full_name }}</span></h4>
+                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h6>Login Tanggal : <span class="text-warning">{{ $data->tanggal }}</span></h6>
+                                <p class="">Anda Yakin Mau Menghapus Izin Absen?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary btn-custom-table" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+                                {{-- <a href="" class="text-decoration-none btn btn-danger btn-custom-table"><i class="fa fa-user-times"></i> Hapus</a> --}}
+                                <form action="{{ route('users.absensi_delete', $data->user_id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-custom-table" ><i class="fa fa-user-times"></i> Hapus</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+    
+                    {{-- endModal --}}
+                    </td>
+                  {{-- <td></td> --}}
+                </tr>
+                
+                  @empty
+                <tr>
+                    <td colspan="6"><p class="text-center poppins-regular">-- No Data Available --</p> </td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+            <div>
+                {{ $absensi_with_user->links('vendor.pagination.simple') }}
+    </div>
+</div>
+    
         </div>
       </div>
 </div>
