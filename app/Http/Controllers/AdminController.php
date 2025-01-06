@@ -223,9 +223,11 @@ class AdminController extends Controller
     }
 
     public function dokumentasi_data(){
+        $data = Dokument::orderBy('created_at', 'desc')->get();
         return view('admin.dokumentasi.data', [
-            'title' => 'Dokumentasi | Admin',
-            'menu'  => 'data',
+            'title'     => 'Dokumentasi | Admin',
+            'menu'      => 'data',
+            'data_file' => $data,
         ]);
 
     }
@@ -233,25 +235,24 @@ class AdminController extends Controller
     public function dokumentasi_data_save(Request $request){
         $cek_data = validator::make($request->all(), [
             'title'     => 'required|regex:/^(\w+\s+){3,}\w+$/', 
-            'hastag'    => 'required|regex:/^(#\w+(\s+|,\s*)?){5,}$/',
+            'hastag'    => 'required', // setiap elemen harus berupa string dan dimulai dengan '#'        
             'akses'     => 'required',
             'file'      => 'required|mimes:pdf|max:2048',
             'img_sampul'=> 'required|image|mimes:jpeg,png,jpg|max:3048',
         ],[
-            'title.required'     => 'Judul Wajib diisi!',
-            'title.regex'     => 'Judul Minimal 4 kata',
-            'hastag.required'    => 'Hastag Harus diisi!',
-            'hastag.regex'    => 'Hastag Minimal 6',
-            'akses.required' => 'Akses Harus diisi!',
-            'file.required' => 'File harus diunggah.',
-            'file.mimes' => 'File harus berformat PDF.',
-            'file.max' => 'Ukuran file maksimal adalah 3MB.',
-            'img_sampul.required'=> 'Gambar Sampul harus diunggah',
-            'img_sampul.image'=> 'Format Gambar Tidak Sesuai!',
-            'img_sampul.mimes'=> 'Format Gambar Harus .jpeg, .png dan jpg!',
-            'img_sampul.max'=> 'Ukuran Gambar Maksimal 3 MB',
+            'title.required'        => 'Judul Wajib diisi!',
+            'title.regex'           => 'Judul Minimal 4 kata',
+            'hastag.required'       => 'Hastag Harus diisi!',
+            // 'hastag.min'            => 'Hastag Minimal 6',
+            'akses.required'        => 'Akses Harus diisi!',
+            'file.required'         => 'File harus diunggah.',
+            'file.mimes'            => 'File harus berformat PDF.',
+            'file.max'              => 'Ukuran file maksimal adalah 3MB.',
+            'img_sampul.required'   => 'Gambar Sampul harus diunggah',
+            'img_sampul.image'      => 'Format Gambar Tidak Sesuai!',
+            'img_sampul.mimes'      => 'Format Gambar Harus .jpeg, .png dan jpg!',
+            'img_sampul.max'    => 'Ukuran Gambar Maksimal 3 MB',
         ]); 
-        // dd(Request()->all());
         if ($cek_data->fails()) {
             return redirect()->back()
                 ->withErrors($cek_data) // Kirim error ke view
