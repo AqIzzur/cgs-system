@@ -151,7 +151,7 @@
         <hr>
         {{--  --}}
         <nav class="nav flex-column">
-            <a class="nav-link text-custom-sidebar @if($title == 'Dashboard |Admin')active text-dark @endif  " href="{{ route('admin.view') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Dashboard | Admin')active text-dark @endif  " href="{{ route('admin.view') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-home  me-3"></i>

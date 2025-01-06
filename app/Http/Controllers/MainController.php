@@ -112,7 +112,7 @@ class MainController extends Controller
                 'SchoolName' => 'required|string|max:255',
                 'password' => 'required|string|min:8',
                 'PasswordConfirmation' => 'required|string|same:password',
-                'img_profile' => 'image|mimes:jpeg, png, jpg|max:3048',
+                'img_profile' => 'image|mimes:jpeg,png,jpg|max:3048',
                 'adress' => 'required|min:15',
             ], [
                 // Pesan error dalam bahasa Indonesia

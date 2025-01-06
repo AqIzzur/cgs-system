@@ -8,10 +8,10 @@ $tanggal = date('d-m-Y ');
         <div class="row ">
             <div class="col-lg-6 col-md-6 col-sm-6 col mb-3 mb-md-0">
                 <div class="date rounded-start-5 rounded-end-3 bg-success bg-opacity-50 d-flex">
-                    <div class="date-circle me-3 d-flex justify-content-center align-items-center bg-white">
+                    <div class="date-circle me-2 d-flex justify-content-center align-items-center bg-white">
                         <i class="fa fa-calendar-days fa-xl fa-fade"></i>
                     </div>
-                    <h4 class="m-auto me-3 text-tgl text-dark">{{ $tanggal }}</h4>
+                    <h4 class="m-auto me-lg-3 me-2 text-tgl text-dark">{{ $tanggal }}</h4>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col d-flex justify-content-end">

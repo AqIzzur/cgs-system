@@ -9,9 +9,15 @@
     color: #fff;
     border-radius: 7px;
   }
-  .active1:hover{
+  .nav-link:hover.active1:hover{
     background-color: #66b3fa;
-    color: rgb(255, 225, 225);
+    color: rgb(255, 255, 46);
+  }
+  .nav-link:hover{
+    background-color:#959595;
+    color: #fff;
+    border-radius: 7px;
+
   }
 
 </style>

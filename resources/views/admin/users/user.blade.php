@@ -35,7 +35,7 @@
                     <td><span class="text-table poppins-regular">{{ $user->email  }}</span></td>
                     <td><span class="text-table poppins-regular">{{ $user->school_name  }}</span></td>
                     <td>
-                        <button class="btn btn-primary btn-custom-table" data-bs-target="#detail{{ $user->user_id }}" data-bs-toggle="modal"> Detail</button>
+                        <button class="btn btn-primary btn-custom-table mb-sm-2" data-bs-target="#detail{{ $user->user_id }}" data-bs-toggle="modal"> Detail</button>
                         @if ($user->status == 'active')
                             
                         <button class="badge text-info  poppins-regular border-1 border border-info  poppins-regular  bg-opacity-50 btn-custom-table">Activate</button>
