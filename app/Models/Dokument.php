@@ -12,6 +12,6 @@ class Dokument extends Model
     protected $table = 'documents';
     protected $primaryKey = 'documents_id';
     protected $fillable = [
-        'title', 'deskription', 'file_path',
+        'title', 'image','hastag','akses', 'file_path',
     ];
 }

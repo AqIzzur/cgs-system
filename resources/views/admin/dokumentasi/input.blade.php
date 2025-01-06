@@ -8,7 +8,7 @@
             <hr class=" garis_dokumentasi">
         </div>
         <div class="row">
-            <div class="col-md-5 mx-auto col-sm-12 mt-3 p-2">
+            <div class="col-md-5 mx-auto col-sm-8 mt-3 p-2">
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="judul">Judul</label>

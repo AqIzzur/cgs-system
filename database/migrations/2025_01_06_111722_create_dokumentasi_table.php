@@ -19,7 +19,8 @@ return new class extends Migration
             // $table->text('deskription');               
             $table->string('file_path');
             $table->string('image');
-            $table->string('akses');               
+            $table->string('akses');
+            $table->text('hastag')->nullable();               
             $table->timestamps();
         });
     }

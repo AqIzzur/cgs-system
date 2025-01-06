@@ -285,3 +285,87 @@ $tanggal = date('d-m-Y ');
       </td>
     {{-- <td></td> --}}
   </tr>
+
+
+
+
+
+
+
+
+  <style>
+    .offcanvas{
+        width: 50% !important;
+    }
+    .active1{
+      background-color: #5ea0dd;
+      color: #fff;
+      border-radius: 7px;
+    }
+    .nav-link:hover.active1:hover{
+      background-color: #66b3fa;
+      color: rgb(255, 255, 46);
+    }
+    .nav-link:hover{
+      background-color:#959595;
+      color: #fff;
+      border-radius: 7px;
+  
+    }
+  
+  </style>
+  <nav class="navbar  navbar-expand-lg ">
+      <div class="container-fluid">
+        {{-- <a class="navbar-brand" href="#">Offcanvas navbar</a> --}}
+        <button class="navbar-toggler ms-auto btn btn-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CGS SYSTEM</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1  ">
+              <li class="nav-item ">
+                <a class="nav-link text-custom-sidebar
+                {{-- @if($menu == 'input')active1 @endif --}}
+                 p-2" href="">
+                  <button class="">Input Data</button>
+                  </a>
+  
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link text-custom-sidebar
+                @if($menu == 'data')active1 @endif
+                 p-2" aria-current="page" href="{{ route('dokumentasi.data') }}">
+                  <div class="row">
+                    <div class="col-2">
+                      {{-- <i class="fa fa-folder-closed "></i> --}}
+                      <i class="fa fa-folder-open "></i>
+                    </div>
+                    <div class="col poppins-regular ">
+                      Documentation
+                      {{-- active1 --}}
+                    </div>
+                  </div>
+                  </a>
+              </li>
+          
+            </ul>
+          
+          </div>
+        </div>
+      </div>
+    </nav>  
+      <div class="modal fade" id="input-dokumentasi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              jgjlkjg
+              <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+  

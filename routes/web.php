@@ -67,8 +67,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/asset', [AdminController::class, 'asset'])->name('admin.asset');
     Route::get('/dokumentasi', [AdminController::class, 'dokumentasi'])->name('admin.dokumentasi');
     Route::prefix('dokumentasi')->group(function () {
-        Route::get('/input-data', [AdminController::class, 'dokumentasi_input'])->name('dokumentasi.input');
         Route::get('/data-dokumentasi', [AdminController::class, 'dokumentasi_data'])->name('dokumentasi.data');
+        Route::post('/data-dokumentasi', [AdminController::class, 'dokumentasi_data_save'])->name('dokumentasi.data_save');
     });
     // [AdminController::class, 'view'])->name('admin.view');
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\absensi;
+use App\Models\Dokument;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -91,7 +92,7 @@ class AdminController extends Controller
                 'dari_tanggal'  => 'required|date',
                 'sampai_tanggal'=> 'required|date|after_or_equal:dari_tanggal',
                 'keterangan'    => 'required|regex:/^(\w+\s+){3,}\w+$/',
-                'img_ket'       => 'required|image|mimes:jpeg, png, jpg|max:2048',
+                'img_ket'       => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ],[
                 'nama_user.required'    => 'Nama User Wajib Dipilih!',
                 'dari_tanggal.required' => 'Tanggal Harus Diisi!',
@@ -220,18 +221,65 @@ class AdminController extends Controller
     public function dokumentasi(){
         return view('admin.dokumentasi', ['title' => 'Dokumentasi | Admin']);
     }
-    public function dokumentasi_input(){
-        return view('admin.dokumentasi.input', [
-            'title' => 'Dokumentasi | Admin',
-            'menu'  => 'input',
-        ]);
 
-    }
     public function dokumentasi_data(){
         return view('admin.dokumentasi.data', [
             'title' => 'Dokumentasi | Admin',
             'menu'  => 'data',
         ]);
+
+    }
+
+    public function dokumentasi_data_save(Request $request){
+        $cek_data = validator::make($request->all(), [
+            'title'     => 'required|regex:/^(\w+\s+){3,}\w+$/', 
+            'hastag'    => 'required|regex:/^(#\w+(\s+|,\s*)?){5,}$/',
+            'akses'     => 'required',
+            'file'      => 'required|mimes:pdf|max:2048',
+            'img_sampul'=> 'required|image|mimes:jpeg,png,jpg|max:3048',
+        ],[
+            'title.required'     => 'Judul Wajib diisi!',
+            'title.regex'     => 'Judul Minimal 4 kata',
+            'hastag.required'    => 'Hastag Harus diisi!',
+            'hastag.regex'    => 'Hastag Minimal 6',
+            'akses.required' => 'Akses Harus diisi!',
+            'file.required' => 'File harus diunggah.',
+            'file.mimes' => 'File harus berformat PDF.',
+            'file.max' => 'Ukuran file maksimal adalah 3MB.',
+            'img_sampul.required'=> 'Gambar Sampul harus diunggah',
+            'img_sampul.image'=> 'Format Gambar Tidak Sesuai!',
+            'img_sampul.mimes'=> 'Format Gambar Harus .jpeg, .png dan jpg!',
+            'img_sampul.max'=> 'Ukuran Gambar Maksimal 3 MB',
+        ]); 
+        // dd(Request()->all());
+        if ($cek_data->fails()) {
+            return redirect()->back()
+                ->withErrors($cek_data) // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+        DB::beginTransaction();  // Mulai transaksi database
+        try {
+            // Simpan file PDF
+        $filePath   = $request->akses . date('d-m-Y'). '.' . $request->file->extension();;
+        $imageName  = $request->akses . date('d-m-Y'). '.' . $request->img_sampul->extension();;
+        
+        Dokument::create([
+            'title'     => $request->title,
+            'file_path' => $filePath,
+            'image'     => $imageName,
+            'akses'     => $request->akses,
+            'hastag'    => $request->hastag,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::commit();
+        $request->file->move(public_path('images/dokumentasi/file'), $filePath);
+        $request->img_sampul->move(public_path('images/dokumentasi/sampul'), $imageName);
+        return  redirect()->back()->with('success', 'Documentation Added Successfully');
+    } catch (\Exception $e) {
+        DB::rollback();
+        return redirect()->back()->with('error', 'There is an error: ' . $e->getMessage());
+    }
 
     }
 
