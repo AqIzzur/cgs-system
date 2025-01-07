@@ -58,24 +58,24 @@ input[type="file"].image {
     }
     .btn-custom-card{
         font-size: 15px ;
-        height: 30px;
-        padding-top: 3px;
-        padding-right: 10px;
-        padding-left: 10px;
-        padding-bottom: 10px;
-        /* padding: 10px; */
-        margin-right: 10px;
 
     }
     .card-title-custom{
         font-size: 17px;
         font-weight: bold;
         text-transform: capitalize;
+        text-align: start;
+        
     }
     .card-custom{
-        width: 250px;
-        min-height: 400px;
+        width: 200px;
+        min-height: 350px;
         /* height: 100%; */
+    }
+    .img-card-doku{
+        width: 190px;
+        border-radius: 8px;
+        border: black 2px solid;
     }
 
 }
@@ -102,6 +102,13 @@ input[type="file"].image {
     }
     .card-custom{
         width: 18rem;
+        min-height: 400px;
+
+    }
+    .img-card-doku{
+        width: 96%;
+        border-radius: 8px;
+        border: black 2px solid;
     }
 
 }
