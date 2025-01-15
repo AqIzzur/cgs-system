@@ -74,8 +74,8 @@
                   <div class="col-lg-6">
                     <label for="akses" class="poppins-bold">Bisa Diakses :</label>
                     <select name="akses" id="akses" class="form-control">
-                      <option value="admin" {{ old('akses') == 'admin' ? 'selected' : '' }}> Hanya Admin </option>
                       <option value="user" {{ old('akses') == 'user' ? 'selected' : '' }}> Semua Pengguna </option>
+                      <option value="admin" {{ old('akses') == 'admin' ? 'selected' : '' }}> Hanya Admin </option>
                     </select>
                     @error('akses')
                       <span class="text-danger font-monospace">{{ $message }}</span>
@@ -86,7 +86,7 @@
                 
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
               <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
             </form>
             </div>

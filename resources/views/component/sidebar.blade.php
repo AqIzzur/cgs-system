@@ -287,6 +287,32 @@
 
 
         <script src="{{ asset('asset/js/script-sidebar.js') }}"></script>
+@if (session('info'))
+<div class="modal fade alert-modal" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info bg-opacity-50">
+                <h5 class="modal-title " id="infoModalLabel">Berhasil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3">
+                        <i class="ms-3 fa-solid fa-circle-check fa-4x" style="color: #63E6BE;"></i>
+                    </div>
+                    <div class="col ">
+                        <p class="text-uppercase my-auto fs-5 fw-bold mt-2">{{ session('info') }}</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 @if (session('success'))
 <div class="modal fade alert-modal" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -404,6 +430,10 @@
         // Cek session flash untuk modal success
         @if (session('success'))
             var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        @endif
+        @if (session('info'))
+            var successModal = new bootstrap.Modal(document.getElementById('infoModal'));
             successModal.show();
         @endif
 

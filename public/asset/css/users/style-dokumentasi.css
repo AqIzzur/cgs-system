@@ -51,10 +51,9 @@ input[type="file"].image {
     border-radius: 5px;
 }
 
-
 @media (min-width:414px){
     .garis_dokumentasi{
-        width: 30%;
+        width: 40%;
     }
     .btn-custom-card{
         font-size: 15px ;
@@ -69,13 +68,16 @@ input[type="file"].image {
     }
     .card-custom{
         width: 200px;
-        min-height: 350px;
+        min-height: 300px;
         /* height: 100%; */
     }
     .img-card-doku{
-        width: 190px;
-        border-radius: 8px;
-        border: black 2px solid;
+        width: 200px;
+        /* border-radius: 8px; */
+        /* border: black 2px solid; */
+        object-fit:cover;
+        overflow: hidden;
+
     }
 
 }
@@ -110,7 +112,9 @@ input[type="file"].image {
         border-radius: 8px;
         border: black 2px solid;
     }
-
+    .margin-top-custom{
+        margin-top: 10px;
+    }
 }
 
 

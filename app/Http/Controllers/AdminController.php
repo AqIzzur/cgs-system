@@ -9,6 +9,8 @@ use App\Models\absensi;
 use App\Models\Dokument;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
+
 
 
 
@@ -284,6 +286,123 @@ class AdminController extends Controller
 
     }
 
+    public function dokumentasi_data_edit(Request $request, $id){
+        $cek_data = validator::make($request->all(), [
+            'title'     => 'required|regex:/^(\w+\s+){3,}\w+$/', 
+            'hastag'    => 'required', // setiap elemen harus berupa string dan dimulai dengan '#'        
+            'akses'     => 'required',
+            'file'      => 'nullable|mimes:pdf|max:2048',
+            'img_sampul'=> 'nullable|image|mimes:jpeg,png,jpg|max:3048',
+        ],[
+            'title.required'        => 'Judul Wajib diisi!',
+            'title.regex'           => 'Judul Minimal 4 kata',
+            'hastag.required'       => 'Hastag Harus diisi!',
+            // 'hastag.min'            => 'Hastag Minimal 6',
+            'akses.required'        => 'Akses Harus diisi!',
+            'file.required'         => 'File harus diunggah.',
+            'file.mimes'            => 'File harus berformat PDF.',
+            'file.max'              => 'Ukuran file maksimal adalah 3MB.',
+            'img_sampul.required'   => 'Gambar Sampul harus diunggah',
+            'img_sampul.image'      => 'Format Gambar Tidak Sesuai!',
+            'img_sampul.mimes'      => 'Format Gambar Harus .jpeg, .png dan jpg!',
+            'img_sampul.max'    => 'Ukuran Gambar Maksimal 3 MB',
+        ]); 
+        if ($cek_data->fails()) {
+            return redirect()->back()
+                ->withErrors($cek_data) // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+
+        // dd($request);
+        $dokumentasi = Dokument::find($id);
+        // Handle img_sampul (gambar sampul)
+        if (!$request->hasFile('img_sampul')) {
+            $img_sampul = $dokumentasi->image; // Gunakan gambar lama
+        } else {
+            $img_sampul = $request->akses . date('d-m-Y'). '.' . $request->img_sampul->extension();;
+            // $img_sampul = time() . '_' . $file->getClientOriginalName();
+            // $request->img_sampul->move(public_path('images/dokumentasi/sampul/'), $img_sampul);
+        }
+
+        // Handle file_docs (dokumen)
+        if (!$request->hasFile('file')) {
+            $file_docs = $dokumentasi->file_path; // Gunakan file lama
+        } else {
+            // $fileDoc = $request->file('file');
+            $file_docs = $request->akses . date('d-m-Y'). '.' . $request->img_sampul->extension();;
+        }
+        if (
+            $request->title == $dokumentasi->title &&
+            $request->hastag == $dokumentasi->hastag &&
+            $request->akses == $dokumentasi->akses
+        ) {
+            // Semua data sama → kembalikan ke halaman sebelumnya
+            return redirect()->back()->with('info', 'Tidak ada perubahan data.');
+        }
+
+        DB::beginTransaction();  // Mulai transaksi database
+        try {
+        Dokument::where('documents_id', $id)->update([
+            'title'     => $request->title,
+            'file_path' => $file_docs,
+            'image'     => $img_sampul,
+            'akses'     => $request->akses,
+            'hastag'    => $request->hastag,
+            'updated_at' => now(),
+        ]);
+
+        DB::commit();
+        if ($request->hasFile('img_sampul')) {
+            $request->img_sampul->move(public_path('images/dokumentasi/sampul/'), $img_sampul);
+        }
+        if ($request->hasFile('file')) {
+            $request->file->move(public_path('images/dokumentasi/file/'), $file_docs);
+        }
+        return  redirect()->back()->with('success', 'Documentation Added Successfully');
+    } catch (\Exception $e) {
+        DB::rollback();
+        return redirect()->back()->with('error', 'There is an error: ' . $e->getMessage());
+    }
+    }
+
+    public function dokumentasi_data_delete($id){
+        // dd($id);
+        $dokumentasi = Dokument::find($id);
+        if (!$dokumentasi) {
+            return response()->json(['message' => 'File tidak ditemukan'], 404);
+        }   
+        if ($dokumentasi->image && file_exists(public_path('images/dokumentasi/sampul/' . $dokumentasi->image))) {
+            unlink(public_path('images/dokumentasi/sampul/' . $dokumentasi->image));
+        }
+        if ($dokumentasi->file_path && file_exists(public_path('images/dokumentasi/file/' . $dokumentasi->file_path))) {
+            unlink(public_path('images/dokumentasi/file/' . $dokumentasi->file_path));
+        }
+
+        $dokumentasi->delete();
+        return redirect()->back()->with('success', 'Data Deleted Successfully');
+    }
+
+    public function viewPdf($filename)
+    {
+        // Path file PDF
+        $filePath = public_path("images/dokumentasi/file/" . basename($filename));
+    
+        // Validasi file ada atau tidak
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+    
+        // Validasi tipe file (hanya PDF)
+        if (mime_content_type($filePath) !== 'application/pdf') {
+            abort(403, 'Invalid file type.');
+        }
+    
+        // Return file PDF dengan respons yang sesuai
+        return Response::make(file_get_contents($filePath), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . basename($filename) . '"',
+        ]);
+    }
 
 
 

@@ -69,7 +69,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::prefix('dokumentasi')->group(function () {
         Route::get('/data-dokumentasi', [AdminController::class, 'dokumentasi_data'])->name('dokumentasi.data');
         Route::post('/data-dokumentasi', [AdminController::class, 'dokumentasi_data_save'])->name('dokumentasi.data_save');
+        Route::get('/view/{filename}', [AdminController::class, 'viewPdf'])->name('pdf.view');
+        Route::post('/edit/{id}', [AdminController::class, 'dokumentasi_data_edit'])->name('dokumentasi.data_edit');
+        Route::delete('/delete/{id}', [AdminController::class, 'dokumentasi_data_delete'])->name('dokumentasi.data_delete');
     });
+
+    
     // [AdminController::class, 'view'])->name('admin.view');
 });
 Route::get('/test-db', function () {
