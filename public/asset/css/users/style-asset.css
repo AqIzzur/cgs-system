@@ -1,0 +1,38 @@
+.garis-asset1{
+    border:2px solid black;
+    margin-top: -15px;
+    margin-bottom: 20px;
+       
+}
+.card-asset{
+ max-width: 200px;       
+}
+.card-asset:hover{
+    color: rgb(47, 47, 174);
+    box-shadow: 2px 2px 15px black;
+    /* transition: all 0.5s; */
+    /* transform: scale(1.2); */
+}
+
+@media screen and (min-width:414px) {
+    .garis-asset1{
+        width:20%; 
+    }
+    .svg_style{
+        width: 100px;
+    }
+}
+
+@media screen and (max-width:414px) {
+    .garis-asset1{
+        width:50%; 
+    }
+    .svg_style{
+        width: 130px;
+        /* margin-top: 20px; */
+
+    }
+    .judul-asset{
+        font-size: 36px;
+    }
+}

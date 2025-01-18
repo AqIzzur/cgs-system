@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\absensi;
 use App\Models\Dokument;
+use App\Models\KategoriAsset;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
 
@@ -216,10 +218,7 @@ class AdminController extends Controller
     // return view('admin.users.absen', compact('absensi'));
 }   
 
-// Asset
-    public function asset(){
-        return view('admin.asset', ['title' => 'Asset | Admin']);
-    }
+
     public function dokumentasi(){
         return view('admin.dokumentasi', ['title' => 'Dokumentasi | Admin']);
     }
@@ -239,7 +238,7 @@ class AdminController extends Controller
             'title'     => 'required|regex:/^(\w+\s+){3,}\w+$/', 
             'hastag'    => 'required', // setiap elemen harus berupa string dan dimulai dengan '#'        
             'akses'     => 'required',
-            'file'      => 'required|mimes:pdf|max:2048',
+            'file'      => 'required|mimes:pdf|max:10048',
             'img_sampul'=> 'required|image|mimes:jpeg,png,jpg|max:3048',
         ],[
             'title.required'        => 'Judul Wajib diisi!',
@@ -402,6 +401,62 @@ class AdminController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . basename($filename) . '"',
         ]);
+    }
+
+
+    // Asset
+    public function asset(){
+        $kategori = KategoriAsset::orderBy('created_at', 'asc')->get();
+        return view('admin.asset', [
+            'title'     => 'Asset | Admin',
+            'kategori'  => $kategori,
+        ]);
+    }
+
+    public function asset_kategori_save(Request $request){
+        // dd($request);
+        $cek_data = Validator::make($request->all(), [
+            "name_kategori" => 'required|max:20|string',
+            "svg_script"    => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^<svg[\s\S]*<\/svg>$/', trim($value))) {
+                        $fail('The '.$attribute.' must be a valid SVG format.');
+                    }
+                }
+            ], 
+        ],[
+            'name_kategori.required'    => 'Nama Kategori Harus Diisi!!',
+            'name_kategori.max'         => 'Maksimal 20 Karakter',
+            'name_kategori.string'      => 'Harus Berupa String',
+            'svg_script.required'       => 'Script SVG Harus Diisi',
+            'svg_script.string'         => 'Script SVG Harus Berupa String',
+        ]);
+        if ($cek_data->fails()) {
+            return redirect()->back()
+                ->withErrors($cek_data) // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+        
+        DB::beginTransaction();
+        try{
+            KategoriAsset::create([
+                'kategori_name' => $request->name_kategori,
+                'icon_path'     => $request->svg_script,
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ]);
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Kategori Berhasil Ditambahkan');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error', 'Gagal Menambahkan Kategori: ' . $e->getMessage());
+        }
+
+
+
     }
 
 
