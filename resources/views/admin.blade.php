@@ -27,10 +27,17 @@
                                         Forgot Password?
                                     </a> --}}
                                 </div>
-                                <input id="password" type="password" class="form-control" name="password" required value="{{ old('password') }}">
-                                @error('password')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                {{-- <div class="password-container"> --}}
+                                    <div class="input-group">
+                                      <input type="password" class="form-control" id="password"  name="password" required value="{{ old('password') }}">
+                                      <span class="input-group-text" id="togglePassword"><i class="fas fa-eye"></i></span>
+                                    </div>
+                                    @error('password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                  {{-- </div> --}}
+                                {{-- <input id="password" type="password" class="form-control" name="password" required value="{{ old('password') }}"> --}}
+
                             </div>
 
                             <div class="d-flex align-items-center">
@@ -55,5 +62,28 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+              const togglePassword = document.getElementById('togglePassword');
+              const passwordInput = document.getElementById('password');
+        
+              // Pastikan elemen ditemukan
+              console.log('togglePassword:', togglePassword); // Debugging
+              console.log('passwordInput:', passwordInput); // Debugging
+        
+              if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function () {
+                  // Ubah tipe input antara password dan text
+                  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                  passwordInput.setAttribute('type', type);
+        
+                  // Toggle ikon
+                  this.querySelector('i').classList.toggle('fa-eye');
+                  this.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+              }
+            });   
+        
+          </script>
 </section>
 @endsection

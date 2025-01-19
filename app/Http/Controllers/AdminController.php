@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\absensi;
 use App\Models\Dokument;
 use App\Models\KategoriAsset;
+use App\Models\AssetData;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -458,6 +459,15 @@ class AdminController extends Controller
 
 
     }
+
+    public function data_aset($id){
+        // $cek_kategori = AssetData::find($id);
+        return view('admin.data_asset.data', [
+            'title' => 'Asset Data | Admin',
+            // 'view_asset' => $cek_kategori,
+        ]);
+
+    }   
 
 
 

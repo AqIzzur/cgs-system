@@ -85,11 +85,11 @@ class MainController extends Controller
                                     return redirect('/user/dashboard');
                 }else{
 
-                    return redirect()->back()->with(['errorlogin' => 'detail : Password salah!']);
+                    return redirect()->back()->with(['errorlogin' => 'detail : Password salah!'])->withInput(); ;
                 }
         
             }else{
-                return redirect()->back()->with('errorlogin','detail : Email Belum Terdaftar');
+                return redirect()->back()->with('errorlogin','detail : Email Belum Terdaftar')->withInput(); ;
             }
 
     }
@@ -216,10 +216,10 @@ class MainController extends Controller
                 Auth::login($user);
                 return redirect()->route('admin.view');
             }else{
-                return redirect()->back()->withInput()->with('errorAdmin','Password Salah!!');
+                return redirect()->back()->withInput()->with('errorAdmin','Password Salah!!')->withInput();
             }
         }else{
-            return redirect()->back()->with('errorAdmin','Email Belum Terdaftar!!');
+            return redirect()->back()->with('errorAdmin','Email Belum Terdaftar!!')->withInput();
         }
     }
 }

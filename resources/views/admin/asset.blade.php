@@ -2,6 +2,52 @@
 @section('content_sidebar')
 <link rel="stylesheet" href="{{ asset('asset/css/font-rasa.css') }}">
 <link rel="stylesheet" href="{{ asset('asset/css/users/style-asset.css') }}">
+<style>
+    .triangle-button {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #333;
+      margin: 10px auto ;
+        
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .triangle-button.rotate {
+      transform: rotate(180deg);
+    }
+
+    .dropdown {
+      position: relative; /* Menjadikan parent dropdown sebagai posisi referensi */
+    }
+
+    .dropdown-menu {
+      position: absolute !important; /* Menimpa posisi default Bootstrap */
+      top: calc(100%); /* Posisi dropdown tepat di bawah segitiga */
+      /* left: -50%; Menu diposisikan di tengah secara horizontal */
+      /* transform: translateX(-500%); Menyelaraskan dengan posisi tengah */
+      margin-left: -40% !important;
+      border-radius: 10px;
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      /* text-align: center; */
+      min-width: 150px;
+      padding: 5px 0; /* Memberi ruang di dalam menu */
+    }
+
+    .dropdown-item {
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .dropdown-item:hover {
+      background-color: #007bff;
+      color: white;
+    }
+</style>
     <div class="container">
         <h3 class="rasa-bold  text-center text-uppercase mt-2 judul-asset">Asset CGS</h3>
         <hr class="mx-auto garis-asset1" >
@@ -58,6 +104,7 @@
         <div class="row mt-3">
             @forelse ($kategori as $kat)
             <div class="col-md-2 col-6 my-2">
+                <a href="{{ route('asset.data', $kat->kategori_id)  }}" class="text-decoration-none text-dark">
                 <div class="card bg-success bg-opacity-50 card-asset mx-auto ">
                     <div class="svg_style mx-auto mt-3">
                         {!! $kat->icon_path !!}
@@ -67,10 +114,37 @@
 
                         
                     </div>
+                </a>    
+
+                    <!-- Triangle Button -->
+                    <div class="dropdown">
+                        <div class="triangle-button " id="triangleButton{{ $kat->kategori_id }}" data-bs-toggle="dropdown" aria-expanded="false"></div>
+                        <ul class="dropdown-menu" aria-labelledby="triangleButton{{ $kat->kategori_id }}">
+                        <li><a class="dropdown-item" >
+                            <i class="fa fa-pen text-warning"></i><span class=" poppins-bold"> Edit</span>
+                        </a></li>
+                        <li><a class="dropdown-item" href="#">
+                            <i class="fa fa-trash-can text-danger"></i><span class=" poppins-bold"> Hapus</span>    
+                        </a></li>
+                        {{-- <li><a class="dropdown-item" href="#">Menu 3</a></li> --}}
+                        </ul>
+                    </div>
                 </div>
-            </div>    
+            </div>
+    {{-- <script>
+        // Select the triangle button
+        const triangleButton = document.getElementById('triangleButton{{ $kat->kategori_id }}');
+    
+        // Add event listener for the dropdown toggle
+        triangleButton.addEventListener('click', () => {
+          const isExpanded = triangleButton.getAttribute('aria-expanded') === 'true';
+          triangleButton.classList.toggle('rotate', !isExpanded);
+        });
+      </script> --}}
             @empty
-                
+                <div class="col-12">
+                    <p class="text-dark">Data Tidak Tersedia</p>
+                </div>
             @endforelse
             
              
