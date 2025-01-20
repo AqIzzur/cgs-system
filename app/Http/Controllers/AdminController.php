@@ -409,9 +409,42 @@ class AdminController extends Controller
     public function asset(){
         $kategori = KategoriAsset::orderBy('created_at', 'asc')->get();
         return view('admin.asset', [
-            'title'     => 'Asset | Admin',
-            'kategori'  => $kategori,
+            'title'         => 'Asset | Admin',
+            'kategori' => $kategori, 
+        ],);
+    }
+
+    public function asset_save(Request $request){
+        // dd($request);
+        $cek = Validator::make($request->all(), [
+            "name_aset" => 'required|max:25',
+            "file_asset"=> 'required|image|max:3024'
+        ],[
+            "name_aset.required"    => 'Nama Aset Harus Diisi',
+            "name_aset.max"         => 'Maksimal 25 Charakter',
         ]);
+        if ($cek->fails()) {
+            return redirect()->back()
+                ->withErrors($cek)
+                ->with('error', 'Input Asset Error') // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+        if($request->akses == '1'){
+            $akses = 'user';
+        }elseif($request->akses == '2'){
+            $akses = 'admin';
+        }
+        DB::beginTransaction();
+        try{
+            AssetData::create([
+                'name_asset'
+
+            ]);
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error', 'Gagal Menambahkan Kategori: ' . $e->getMessage());
+        }
+
     }
 
     public function asset_kategori_save(Request $request){
@@ -436,7 +469,8 @@ class AdminController extends Controller
         ]);
         if ($cek_data->fails()) {
             return redirect()->back()
-                ->withErrors($cek_data) // Kirim error ke view
+                ->withErrors($cek_data)
+                ->with('error', 'Input Kategori Error') // Kirim error ke view
                 ->withInput();          // Kirim data input sebelumnya
         }
         

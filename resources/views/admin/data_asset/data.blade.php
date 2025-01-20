@@ -35,7 +35,7 @@
         <hr class="mx-auto garis-asset1" >
         <div class="row">
             <div class="col-4 col-lg-6">
-                <button class="btn btn-primary" data-bs-target="#input_kategori" data-bs-toggle="modal"><i class="fa fa-plus"></i> Input </button>
+                <a href="{{ route('admin.asset') }}" class="btn btn-secondary"><i class="fas fa-backward"></i></a>
             </div>
             <div class="col">
                 <form action="" method="post">

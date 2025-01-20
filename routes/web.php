@@ -66,6 +66,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     });
     Route::get('/asset', [AdminController::class, 'asset'])->name('admin.asset');
     Route::post('/asset', [AdminController::class, 'asset_kategori_save'])->name('asset.kategori_save');
+    Route::post('/asset/save', [AdminController::class, 'asset_save'])->name('asset.save');
     Route::prefix('asset')->group(function () {
         Route::get('/data/{id}', [AdminController::class, 'data_aset'])->name('asset.data');
     });
