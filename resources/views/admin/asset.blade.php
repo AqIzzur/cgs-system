@@ -130,6 +130,10 @@
                             <div class="form-group my-2">
                                 <label for="name_aset" class="poppins-regular">Nama Asset</label>
                                 <input type="text" class="form-control" id="name_aset" name="name_aset">
+                                @error('name_aset')
+                                  <span class="text-danger font-monospace">{{ $message }}</span>
+                                @enderror
+                                
                             </div>
                             <div class="form-group my-2">
                                 <label for="kategori_aset" class="poppins-regular">Kategori Asset</label>
@@ -143,6 +147,9 @@
                                             <option value="">Tidak ada kategori tersedia</option>
                                         @endforelse
                                     </select>
+                                    @error('kategori')
+                                      <span class="text-danger font-monospace">{{ $message }}</span>
+                                    @enderror
                                   
                                 {{-- </div> --}}
                             </div>
@@ -150,6 +157,9 @@
                               <label for="" class="poppins-regular">Asset File</label>
                               <label for="file_asset" class="custom-file-upload " >File Asset</label>
                               <input type="file" name="file_asset" id="file_asset" class="form-control" accept="image/*">
+                              @error('file_asset')
+                                <span class="text-danger font-monospace">{{ $message }}</span>
+                              @enderror
                             </div>
                             <div class="form-group">
                                 <label for="akses" class="poppins-regular">Akses Asset</label>
@@ -158,6 +168,9 @@
                                   <option value="1">Semua Pengguna</option>
                                   <option value="2">Hanya Admin</option>
                                 </select>
+                                @error('akses')
+                                  <span class="text-danger font-monospace">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="mt-3 d-grid gap-2 d-flex justify-content-end">
@@ -245,11 +258,11 @@
 
 
             </div>
-            <div class="col">
+            {{-- <div class="col">
                 <form action="" method="post">
                     <input type="text" name="" id="" placeholder="Search Here...." class="form-control border border-dark">
                 </form>
-            </div>
+            </div> --}}
         </div>
 
         <div class="row mt-3">

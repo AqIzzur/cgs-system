@@ -175,7 +175,7 @@ class MainController extends Controller
 
             DB::commit();
             if($request->img_profile){
-            $request->img_profile->move(public_path('images/profile'), $imageName);
+            $request->img_profile->move(public_path('images/asset'), $imageName);
             return  redirect()->route('main.login')->with('success', 'Registration Successful');
             }else{
                 return  redirect()->route('main.login')->with('success', 'Registration Successful');

@@ -10,6 +10,7 @@ use App\Models\Dokument;
 use App\Models\KategoriAsset;
 use App\Models\AssetData;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
@@ -418,10 +419,11 @@ class AdminController extends Controller
         // dd($request);
         $cek = Validator::make($request->all(), [
             "name_aset" => 'required|max:25',
-            "file_asset"=> 'required|image|max:3024'
+            "file_asset"=> 'required|image|mimes:png,jpg,jpeg|max:3024'
         ],[
             "name_aset.required"    => 'Nama Aset Harus Diisi',
             "name_aset.max"         => 'Maksimal 25 Charakter',
+            // "file_asset.required"   => ''
         ]);
         if ($cek->fails()) {
             return redirect()->back()
@@ -429,17 +431,31 @@ class AdminController extends Controller
                 ->with('error', 'Input Asset Error') // Kirim error ke view
                 ->withInput();          // Kirim data input sebelumnya
         }
+        // dd($request);
         if($request->akses == '1'){
             $akses = 'user';
         }elseif($request->akses == '2'){
             $akses = 'admin';
         }
+        $img_name = $request->kategori.$request->name_aset . date('H-i-s'). '.' . $request->file_asset->extension();
+        $ext = $request->file_asset->extension();
         DB::beginTransaction();
         try{
             AssetData::create([
-                'name_asset'
+                'name_asset'        => $request->name_aset,
+                'file_asset'        => $img_name,
+                'kategori_asset'    => $request->kategori,
+                'type_file'         => $ext,
+                'akses'             => $akses,
+                'user_id'           => Auth::user()->user_id,
+                'created_at' => now(),
+                'updated_at' => now(),
 
             ]);
+            DB::commit();
+            $request->file_asset->move(public_path('images/profile'), $img_name);
+            return  redirect()->back()->with('success', 'Input Asset Successful');
+
         }catch(\Exception $e){
             DB::rollback();
             return redirect()->back()->with('error', 'Gagal Menambahkan Kategori: ' . $e->getMessage());

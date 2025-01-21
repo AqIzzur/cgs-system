@@ -111,11 +111,11 @@
             font-size: 16px ;
         }
         }
-        .active{
+        .active1{
             background-color: #63E6BE;
             color: black;
         }
-        .sidebar .active:hover{
+        .sidebar .active1:hover{
             background-color: #92ffde;
             color: rgb(1, 80, 11)!important;
             border-right: 10px solid #00ffb3;
@@ -154,7 +154,7 @@
         <hr>
         {{--  --}}
         <nav class="nav flex-column">
-            <a class="nav-link text-custom-sidebar @if($title == 'Dashboard | Admin')active text-dark @endif  " href="{{ route('admin.view') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Dashboard | Admin')active1 text-dark @endif  " href="{{ route('admin.view') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-home  me-3"></i>
@@ -176,7 +176,7 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link text-custom-sidebar @if($title == 'Data Users | Admin')active text-dark @endif  " href="{{ route('users.absensi') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Data Users | Admin')active1 text-dark @endif  " href="{{ route('users.absensi') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-user-gear me-3"></i>
@@ -188,7 +188,7 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link text-custom-sidebar @if($title == 'Asset | Admin')active text-dark @endif" href="{{ route('admin.asset') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Asset | Admin')active1 text-dark @endif" href="{{ route('admin.asset') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-icons me-3"></i>
@@ -200,7 +200,7 @@
                     </div>
                 </div>
             </a>
-            <a class="nav-link text-custom-sidebar @if($title == 'Dokumentasi | Admin')active text-dark @endif" href="{{ route('dokumentasi.data') }}">
+            <a class="nav-link text-custom-sidebar @if($title == 'Dokumentasi | Admin')active1 text-dark @endif" href="{{ route('dokumentasi.data') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-folder-closed me-3"></i>
