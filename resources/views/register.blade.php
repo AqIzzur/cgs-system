@@ -75,19 +75,25 @@
             @enderror
         </div>
         <div class="row">
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-12 mb-3">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="input-field" value="{{ old('password') }}">
-                @error('password')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                    <div class="d-flex">
+                        <input type="password" name="password" id="password" class="input-field rounded-start" value="{{ old('password') }}">
+                        <span class="input-group-text" id="togglePassword"><i class="fas fa-eye"></i></span>
+                    </div>
+                    @error('password')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
             </div>
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-12 mb-3">
                 <label for="PasswordConfirmation">Confirm Password</label>
-                <input type="password" name="PasswordConfirmation" id="PasswordConfirmation" class="input-field" value="{{ old('PasswordConfirmation') }}">
-                @error('PasswordConfirmation')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                    <div class="d-flex">
+                        <input type="password" name="PasswordConfirmation" id="PasswordConfirmation" class="input-field form-control" value="{{ old('PasswordConfirmation') }}">
+                        <span class="input-group-text" id="togglePasswordConfirmation"><i class="fas fa-eye"></i></span>
+                    </div>
+                    @error('PasswordConfirmation')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
             </div>
             <div class="col-sm-12 mb-3">
                 <label for="img_profile" class="custom-file-upload "><i class="fas fa-file-upload"></i> Upload Your Profile Photo</label>
@@ -113,4 +119,48 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+          const togglePassword = document.getElementById('togglePassword');
+          const passwordInput = document.getElementById('password');
+    
+          // Pastikan elemen ditemukan
+          console.log('togglePassword:', togglePassword); // Debugging
+          console.log('passwordInput:', passwordInput); // Debugging
+    
+          if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function () {
+              // Ubah tipe input antara password dan text
+              const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+              passwordInput.setAttribute('type', type);
+    
+              // Toggle ikon
+              this.querySelector('i').classList.toggle('fa-eye');
+              this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+          }
+        });   
+    document.addEventListener("DOMContentLoaded", function () {
+          const togglePassword = document.getElementById('togglePasswordConfirmation');
+          const passwordInput = document.getElementById('PasswordConfirmation');
+    
+          // Pastikan elemen ditemukan
+          console.log('togglePassword:', togglePassword); // Debugging
+          console.log('passwordInput:', passwordInput); // Debugging
+    
+          if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function () {
+              // Ubah tipe input antara password dan text
+              const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+              passwordInput.setAttribute('type', type);
+    
+              // Toggle ikon
+              this.querySelector('i').classList.toggle('fa-eye');
+              this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+          }
+        });   
+    
+      </script>
 @endsection

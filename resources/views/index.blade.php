@@ -1,7 +1,8 @@
 @extends('main')
 @section('content')
+<link rel="stylesheet" href="{{ asset('asset/css/font-poppins.css') }}">
 @php
-$tanggal = date('d-m-Y ');
+$tanggal = date('D d-m-Y ');
 @endphp
 <section id="header" class="pt-4">
     <div class="container">
@@ -11,12 +12,12 @@ $tanggal = date('d-m-Y ');
                     <div class="date-circle me-2 d-flex justify-content-center align-items-center bg-white">
                         <i class="fa fa-calendar-days fa-xl fa-fade"></i>
                     </div>
-                    <h4 class="m-auto me-lg-3 me-2 text-tgl text-dark">{{ $tanggal }}</h4>
+                    <h4 class="m-auto me-lg-3 me-2 text-tgl text-dark poppins-bold">{{ $tanggal }}</h4>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col d-flex justify-content-end">
                 <div class="date ms-auto rounded-start-3 rounded-end-5 bg-info bg-opacity-50 d-flex ">
-                    <h4 class="m-auto text-dark mx-2 text-tgl"><span id="real-time"></span></h4>
+                    <h4 class="m-auto text-dark mx-2 text-tgl poppins-bold"><span id="real-time"></span></h4>
                     <div class="date-circle d-flex justify-content-center align-items-center bg-white">
                         <i class="fa-regular fa-clock fa-xl fa-spin"></i>
                     </div>
