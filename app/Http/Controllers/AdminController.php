@@ -416,7 +416,7 @@ class AdminController extends Controller
     }
 
     public function asset_save(Request $request){
-        // dd($request);
+        // dd($request);           
         $cek = Validator::make($request->all(), [
             "name_aset" => 'required|max:25',
             "file_asset"=> 'required|image|mimes:png,jpg,jpeg|max:3024'
@@ -437,8 +437,11 @@ class AdminController extends Controller
         }elseif($request->akses == '2'){
             $akses = 'admin';
         }
-        $img_name = $request->kategori.$request->name_aset . date('H-i-s'). '.' . $request->file_asset->extension();
+        $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori);
+
+        $img_name = $kategori . date('H-i-s'). '.' . $request->file_asset->extension();
         $ext = $request->file_asset->extension();
+        // dd();
         DB::beginTransaction();
         try{
             AssetData::create([
@@ -453,12 +456,12 @@ class AdminController extends Controller
 
             ]);
             DB::commit();
-            $request->file_asset->move(public_path('images/profile'), $img_name);
+            $request->file_asset->move(public_path('images/asset'), $img_name);
             return  redirect()->back()->with('success', 'Input Asset Successful');
 
         }catch(\Exception $e){
             DB::rollback();
-            return redirect()->back()->with('error', 'Gagal Menambahkan Kategori: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'detail: ' . $e->getMessage());
         }
 
     }
@@ -466,7 +469,7 @@ class AdminController extends Controller
     public function asset_kategori_save(Request $request){
         // dd($request);
         $cek_data = Validator::make($request->all(), [
-            "name_kategori" => 'required|max:20|string',
+            "name_kategori" => 'required|max:20|string|regex:/^[a-zA-Z0-9_-]+$/',
             "svg_script"    => [
                 'required',
                 'string',
@@ -480,6 +483,7 @@ class AdminController extends Controller
             'name_kategori.required'    => 'Nama Kategori Harus Diisi!!',
             'name_kategori.max'         => 'Maksimal 20 Karakter',
             'name_kategori.string'      => 'Harus Berupa String',
+            'name_kategori.regex'       => 'Nama kategori hanya boleh mengandung huruf, angka, underscore, atau dash tanpa spasi.',
             'svg_script.required'       => 'Script SVG Harus Diisi',
             'svg_script.string'         => 'Script SVG Harus Berupa String',
         ]);
@@ -511,10 +515,14 @@ class AdminController extends Controller
     }
 
     public function data_aset($id){
-        // $cek_kategori = AssetData::find($id);
+        // dd($id);
+        $cek_kategori = AssetData::select('*')
+                        ->where('kategori_asset', $id)
+                        ->get();
+        // dd($cek_kategori);
         return view('admin.data_asset.data', [
             'title' => 'Asset Data | Admin',
-            // 'view_asset' => $cek_kategori,
+            'view_asset' => $cek_kategori,
         ]);
 
     }   

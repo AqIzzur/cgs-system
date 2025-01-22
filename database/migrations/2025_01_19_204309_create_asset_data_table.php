@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('kategori_asset');
             $table->string('type_file');
             $table->string('akses');
+            // $table->string('akses');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });

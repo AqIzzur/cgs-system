@@ -47,17 +47,18 @@
 
         <div class="row mt-3">
             
+            @forelse ($view_asset as $asset)
             <div class="col-lg-2 col-6 mt-3">
                 <div class="card bg-primary bg-opacity-50 card-asset mx-auto">
-                    <img src="{{ asset('images/Logo_CGS.png') }}" alt="" class="">
+                    <img src="{{ asset('images/asset/'. $asset->file_asset) }}" alt="" class="">
                     <div class="card-body">
-                        <h6 class="text-center poppins-bold">Komputer</h6>
+                        <h6 class="text-center poppins-bold">{{ $asset->name_asset   }}</h6>
                     </div>
                     
                     <!-- Triangle Button -->
                     <div class="dropdown">
                         <div class="triangle-button " id="triangleButton" data-bs-toggle="dropdown" aria-expanded="false"></div>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="triangleButton">
+                        <ul class="dropdown-menu " aria-labelledby="triangleButton">
                         <li><a class="dropdown-item" >
                             <i class="fa fa-pen text-warning"></i><span class=" poppins-bold"> Edit</span>
                         </a></li>
@@ -72,83 +73,13 @@
                     </div>
                 </div>
                 </div>
-            <div class="col-lg-2 col-6 mt-3">
-                <div class="card bg-primary bg-opacity-50 card-asset mx-auto">
-                    <img src="{{ asset('images/Logo_CGS.png') }}" alt="" class="">
-                    <div class="card-body">
-                        <h6 class="text-center poppins-bold">Komputer</h6>
-                    </div>
-                    
-                    <!-- Triangle Button -->
-                    <div class="dropdown">
-                        <div class="triangle-button " id="triangleButton" data-bs-toggle="dropdown" aria-expanded="false"></div>
-                        <ul class="dropdown-menu" aria-labelledby="triangleButton">
-                        <li><a class="dropdown-item" >
-                            <i class="fa fa-pen text-warning"></i><span class=" poppins-bold"> Edit</span>
-                        </a></li>
-                        <li><a class="dropdown-item" >
-                            <i class="fa fa-download text-secondary"></i><span class=" poppins-bold"> Download</span>
-                        </a></li>
-                        <li><a class="dropdown-item" href="#">
-                            <i class="fa fa-trash-can text-danger"></i><span class=" poppins-bold"> Hapus</span>    
-                        </a></li>
-                        {{-- <li><a class="dropdown-item" href="#">Menu 3</a></li> --}}
-                        </ul>
-                    </div>
+                @empty
+                <div class="col-lg-12 col-12 mt-3">
+                    <p class="text-center text-capitalize poppins-bold">- - there is no data in directory - -</p>
                 </div>
-                </div>
-            <div class="col-lg-2 col-6 mt-3">
-                <div class="card bg-primary bg-opacity-50 card-asset mx-auto">
-                    <img src="{{ asset('images/Logo_CGS.png') }}" alt="" class="">
-                    <div class="card-body">
-                        <h6 class="text-center poppins-bold">Komputer</h6>
-                    </div>
-                    
-                    <!-- Triangle Button -->
-                    <div class="dropdown">
-                        <div class="triangle-button " id="triangleButton" data-bs-toggle="dropdown" aria-expanded="false"></div>
-                        <ul class="dropdown-menu" aria-labelledby="triangleButton">
-                        <li><a class="dropdown-item" >
-                            <i class="fa fa-pen text-warning"></i><span class=" poppins-bold"> Edit</span>
-                        </a></li>
-                        <li><a class="dropdown-item" >
-                            <i class="fa fa-download text-secondary"></i><span class=" poppins-bold"> Download</span>
-                        </a></li>
-                        <li><a class="dropdown-item" href="#">
-                            <i class="fa fa-trash-can text-danger"></i><span class=" poppins-bold"> Hapus</span>    
-                        </a></li>
-                        {{-- <li><a class="dropdown-item" href="#">Menu 3</a></li> --}}
-                        </ul>
-                    </div>
-                </div>
-                </div>
-            <div class="col-lg-2 col-6 mt-3">
-                <div class="card bg-primary bg-opacity-50 card-asset mx-auto">
-                    <img src="{{ asset('images/Logo_CGS.png') }}" alt="" class="">
-                    <div class="card-body">
-                        <h6 class="text-center poppins-bold">Komputer</h6>
-                    </div>
-                    
-                    <!-- Triangle Button -->
-                    <div class="dropdown">
-                        <div class="triangle-button " id="triangleButton" data-bs-toggle="dropdown" aria-expanded="false"></div>
-                        <ul class="dropdown-menu" aria-labelledby="triangleButton">
-                        <li><a class="dropdown-item" >
-                            <i class="fa fa-pen text-warning"></i><span class=" poppins-bold"> Edit</span>
-                        </a></li>
-                        <li><a class="dropdown-item" >
-                            <i class="fa fa-download text-secondary"></i><span class=" poppins-bold"> Download</span>
-                        </a></li>
-                        <li><a class="dropdown-item" href="#">
-                            <i class="fa fa-trash-can text-danger"></i><span class=" poppins-bold"> Hapus</span>    
-                        </a></li>
-                        {{-- <li><a class="dropdown-item" href="#">Menu 3</a></li> --}}
-                        </ul>
-                    </div>
-                </div>
-                </div>
-
-            </div>
+                @endforelse
+                
+            {{--  --}}
 
 
         </div>
