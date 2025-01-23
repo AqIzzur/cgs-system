@@ -7,7 +7,7 @@
     <!-- Tambahkan token CSRF dalam request POST -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Maintenance Website </title>
+    <title>@yield('title')</title>
     <!-- <link rel="icon" href="{{ asset('asset/image/cgs_team.png') }}" type="image/x-icon"> -->
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}">
@@ -17,7 +17,7 @@
     
 </head>
 <body>
-
+    @yield('errors')
 <script src="{{ asset('asset/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('asset/js/awesome/all.min.js') }}"></script>
     

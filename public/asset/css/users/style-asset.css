@@ -21,6 +21,19 @@
     .svg_style{
         width: 100px;
     }
+    .png-custom{
+        background-color: aliceblue;
+        display: flex;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-left: 7px;
+        padding-right: auto;
+    }
+    
+    .img-png-custom{
+        max-width: 150px ;
+    
+    }
 }
 
 @media screen and (max-width:414px) {
@@ -34,5 +47,14 @@
     }
     .judul-asset{
         font-size: 36px;
+    }
+    .png-custom{
+        background-color: aliceblue;
+        padding: 10px;
+    }
+    
+    .img-png-custom{
+        width: 150px ;
+    
     }
 }

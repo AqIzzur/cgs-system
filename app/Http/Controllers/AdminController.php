@@ -437,9 +437,10 @@ class AdminController extends Controller
         }elseif($request->akses == '2'){
             $akses = 'admin';
         }
-        $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori);
-
-        $img_name = $kategori . date('H-i-s'). '.' . $request->file_asset->extension();
+        $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori)->first();
+        // echo $kategori;
+        // dd();
+        $img_name = $kategori->kategori_name . date('H-i-s'). '.' . $request->file_asset->extension();
         $ext = $request->file_asset->extension();
         // dd();
         DB::beginTransaction();
