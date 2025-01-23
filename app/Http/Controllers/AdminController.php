@@ -493,7 +493,7 @@ class AdminController extends Controller
                 ->with('error', 'Input Kategori Error') // Kirim error ke view
                 ->withInput();          // Kirim data input sebelumnya
         }
-        
+             
         DB::beginTransaction();
         try{
             KategoriAsset::create([
@@ -507,10 +507,81 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'Kategori Berhasil Ditambahkan');
         }catch(\Exception $e){
             DB::rollback();
-            return redirect()->back()->with('error', 'Gagal Menambahkan Kategori: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal Menyimpan: ' . $e->getMessage());
         }
 
 
+
+    }
+    public function asset_edit(Request $request, $id){
+        // dd($request);
+        $cek_kategori = KategoriAsset::where('kategori_id', $id)
+                        ->where('kategori_name' , $request->name)
+                        ->where('icon_path', $request->svg_script)->first();
+        if($cek_kategori){
+            return redirect()->back();
+        }
+        $cek_data = Validator::make($request->all(), [
+            "name_kategori" => 'required|max:20|string|regex:/^[a-zA-Z0-9_-]+$/',
+            "svg_script"    => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^<svg[\s\S]*<\/svg>$/', trim($value))) {
+                        $fail('The '.$attribute.' must be a valid SVG format.');
+                    }
+                }
+            ], 
+        ],[
+            'name_kategori.required'    => 'Nama Kategori Harus Diisi!!',
+            'name_kategori.max'         => 'Maksimal 20 Karakter',
+            'name_kategori.string'      => 'Harus Berupa String',
+            'name_kategori.regex'       => 'Nama kategori hanya boleh mengandung huruf, angka, underscore, atau dash tanpa spasi.',
+            'svg_script.required'       => 'Script SVG Harus Diisi',
+            'svg_script.string'         => 'Script SVG Harus Berupa String',
+        ]);
+        if ($cek_data->fails()) {
+            return redirect()->back()
+                ->withErrors($cek_data)
+                ->with('error', 'Edit Kategori Error ') // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+
+    DB::beginTransaction();
+    try{
+        // echo "Tes";
+        KategoriAsset::where('kategori_id', $id)
+        ->update([
+            'kategori_name' => $request->name_kategori,
+            'icon_path'     => $request->svg_script,
+            // 'created_at'    => now(),
+            'updated_at'    => now(),
+        ]);
+
+        DB::commit();
+        return redirect()->back()->with('success', 'Kategori Berhasil Ditambahkan');
+    }catch(\Exception $e){
+        DB::rollback();
+        return redirect()->back()->with('error', 'Gagal Menyimpan: ' . $e->getMessage());
+    }
+    }
+
+    public function asset_delete($id){
+        $cek_asset = AssetData::where('kategori_asset', $id)->count();
+        if($cek_asset > 0){
+            return redirect()->back()->with('DeleteAllKategori',  $id);
+            // dd($cek_asset);
+        }else{}
+    }
+
+    public function asset_deleteall($id){
+        // dd($id);
+
+            AssetData::where('kategori_asset', $id)->delete();
+            KategoriAsset::find($id)->delete();
+            
+            // echo "aaaa";
+            return redirect()->back()->with('success', 'Kategori Berhasil Dihapus');
 
     }
 

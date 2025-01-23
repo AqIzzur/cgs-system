@@ -67,6 +67,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/asset', [AdminController::class, 'asset'])->name('admin.asset');
     Route::post('/asset', [AdminController::class, 'asset_kategori_save'])->name('asset.kategori_save');
     Route::post('/asset/save', [AdminController::class, 'asset_save'])->name('asset.save');
+    Route::post('/asset/edit/{id}', [AdminController::class, 'asset_edit'])->name('asset.edit');
+    Route::delete('/asset/delete/{id}', [AdminController::class, 'asset_delete'])->name('asset.delete');
+    Route::delete('/asset/deleteall/{id}', [AdminController::class, 'asset_deleteall'])->name('asset.deleteall');
     Route::prefix('asset')->group(function () {
         Route::get('/data/{id}', [AdminController::class, 'data_aset'])->name('asset.data');
     });

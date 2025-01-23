@@ -287,10 +287,10 @@
                           <i class="fas fa-caret-down fa-2x "></i>
                         </div>
                         <ul class="dropdown-menu" aria-labelledby="triangleButton">
-                        <li><a class="dropdown-item" >
+                        <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#edit{{ $kat->kategori_id }}">
                             <i class="fa fa-pen text-warning"></i><span class=" poppins-bold"> Edit</span>
                         </a></li>
-                        <li><a class="dropdown-item" href="#">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete{{ $kat->kategori_id }}">
                             <i class="fa fa-trash-can text-danger"></i><span class=" poppins-bold"> Hapus</span>    
                         </a></li>
                         {{-- <li><a class="dropdown-item" href="#">Menu 3</a></li> --}}
@@ -298,25 +298,108 @@
                     </div>
                 </div>
             </div>
-    {{-- <script>
-        // Select the triangle button
-        const triangleButton = document.getElementById('triangleButton{{ $kat->kategori_id }}');
-    
-        // Add event listener for the dropdown toggle
-        triangleButton.addEventListener('click', () => {
-          const isExpanded = triangleButton.getAttribute('aria-expanded') === 'true';
-          triangleButton.classList.toggle('rotate', !isExpanded);
-        });
-      </script> --}}
+
+            {{-- Modal Edit --}}
+            <div class="modal fade" id="edit{{ $kat->kategori_id }}" aria-hidden="true" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header bg-warning bg-opacity-50">
+                    <h5 class="poppins-regular text-dark">Edit <span class="fw-bold">{{ $kat->kategori_name }}</span></h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form action="{{ route('asset.edit', $kat->kategori_id) }}" method="post">
+                        @csrf
+                        <div class="form-group my-3">
+                          <label for="name_edit">Nama Kategori</label>
+                          <input type="text" name="name_kategori" id="name_edit" class="form-control" value="{{ $kat->kategori_name }}">
+                        </div>
+                        <div class="form-group my-3">
+                          <label for="svg_script">SVG Script</label>
+                          <input type="text" id="svg_script" name="svg_script" class="form-control" value="{{ $kat->icon_path }}">
+                        </div>
+                  </div>
+                  <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-secondary poppins-regular" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+                    <button type="submit" class="btn btn-primary btn-custom-table poppins-regular" ><i class="fa fa-save"></i> Save Change</button>
+                    
+                  </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{-- End Modal Edit --}}
+
+            <div class="modal fade" id="delete{{ $kat->kategori_id }}" aria-hidden="true" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header bg-danger bg-opacity-50">
+                    <h5 class="poppins-regular text-dark">Delete <span class="fw-bold">{{ $kat->kategori_name }}</span> </h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                      <p class="poppins-regular text-capitalize">apakah anda ingin menghapus kategori ini ?</p>
+                  </div>
+                  <div class="modal-footer d-flex justify-content-between">
+                    {{-- <div class=""> --}}
+                      <button class="btn btn-secondary poppins-regular" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+                      <form action="{{ route('asset.delete', $kat->kategori_id) }}" method="POST">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger btn-custom-table poppins-regular" ><i class="fa fa-trash-can"></i> Delete</button>
+                      </form>
+                      {{-- <button class="btn btn-danger" type="submit"><i class="fa fa-trash-can"></i> Hapus</button> --}}
+                    {{-- </div> --}}
+                  </div>
+                </div>
+              </div>
+            </div>
+                        {{-- Modal Delete --}}
+                      @if (session('DeleteAllKategori'))
+                        <div class="modal fade" id="DeleteAll" aria-hidden="true" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header bg-danger bg-opacity-50">
+                                <h5 class="poppins-regular text-dark">Delete <span class="fw-bold">{{ $kat->kategori_name }}</span> </h5>
+                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <p class="poppins-regular text-capitalize">apakah anda ingin menghapus Semua asset dari kategori ini ?</p>
+                              </div>
+                              <div class="modal-footer d-flex justify-content-between">
+                                {{-- <div class=""> --}}
+                                  <button class="btn btn-secondary poppins-regular" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
+                                  <form action="{{ route('asset.deleteall', session('DeleteAllKategori')) }}" method="POST">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="submit" class="btn btn-danger btn-custom-table poppins-regular" ><i class="fa fa-trash-can"></i> Delete</button>
+                                  </form>
+                                  {{-- <button class="btn btn-danger" type="submit"><i class="fa fa-trash-can"></i> Hapus</button> --}}
+                                {{-- </div> --}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      @endif
+                        {{-- End Modal Delete --}}
+
             @empty
                 <div class="col-12">
                     <p class="text-dark">Data Tidak Tersedia</p>
                 </div>
             @endforelse
-            
+
              
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-
+    <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            @if (session('DeleteAllKategori'))
+                var errorModal = new bootstrap.Modal(document.getElementById('DeleteAll'));
+                errorModal.show();
+            @endif
+          });
+    </script>
 @endsection

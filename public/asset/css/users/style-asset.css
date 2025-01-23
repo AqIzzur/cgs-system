@@ -19,7 +19,7 @@
         width:20%; 
     }
     .svg_style{
-        width: 100px;
+        max-width: 100px;
     }
 }
 
