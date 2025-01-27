@@ -2,9 +2,9 @@ body {
     background: url('../../../images/errors.jpeg') no-repeat center center fixed;
     background-size: cover;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
     text-align: center;
     /* color: white;  */
     font-weight: bold;
@@ -27,3 +27,9 @@ body > * {
     position: relative;
     z-index: 2;
 }
+
+.text-error-custom{
+    font-size: 70px;
+
+}
+

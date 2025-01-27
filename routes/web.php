@@ -72,6 +72,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::delete('/asset/deleteall/{id}', [AdminController::class, 'asset_deleteall'])->name('asset.deleteall');
     Route::prefix('asset')->group(function () {
         Route::get('/data/{id}', [AdminController::class, 'data_aset'])->name('asset.data');
+        Route::post('/data/{id}', [AdminController::class, 'data_aset_edit'])->name('asset.data_edit');
+        Route::delete('/data/delete/{id}', [AdminController::class, 'delete_asset'])->name('asset.data_delete');
+        Route::get('/download/{filename}', [AdminController::class, 'data_aset_download'])->name('asset.data_download');
     });
     Route::get('/dokumentasi', [AdminController::class, 'dokumentasi'])->name('admin.dokumentasi');
     Route::prefix('dokumentasi')->group(function () {

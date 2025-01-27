@@ -437,9 +437,10 @@ class AdminController extends Controller
         }elseif($request->akses == '2'){
             $akses = 'admin';
         }
-        $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori);
-
-        $img_name = $kategori . date('H-i-s'). '.' . $request->file_asset->extension();
+        $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori)->first();
+        // echo $kategori;
+        // dd();
+        $img_name = $kategori->kategori_name . date('H-i-s'). '.' . $request->file_asset->extension();
         $ext = $request->file_asset->extension();
         // dd();
         DB::beginTransaction();
@@ -587,18 +588,101 @@ class AdminController extends Controller
 
     public function data_aset($id){
         // dd($id);
+        $kategori = KategoriAsset::orderBy('created_at', 'asc')->get();
         $cek_kategori = AssetData::select('*')
                         ->where('kategori_asset', $id)
                         ->get();
         // dd($cek_kategori);
         return view('admin.data_asset.data', [
-            'title' => 'Asset Data | Admin',
-            'view_asset' => $cek_kategori,
+            'title'         => 'Asset Data | Admin',
+            'view_asset'    => $cek_kategori,
+            'kategori'      => $kategori,
         ]);
 
     }   
 
+    public function delete_asset($id){
+        // dd($id);
+        $data = AssetData::find($id);
+        if($data){
+            // dd($data);
+            $data->delete();
+        }
+        return redirect()->back()->with('success', 'Asset Berhasil Dihapus');
+    }
 
+    public function data_aset_edit(Request $request, $id){
+
+        $cek = Validator::make($request->all(), [
+            "name_aset" => 'required|max:25',
+            "file_asset"=> 'image|nullable|mimes:png,jpg,jpeg|max:3024'
+        ],[
+            "name_aset.required"    => 'Nama Aset Harus Diisi',
+            "name_aset.max"         => 'Maksimal 25 Charakter',
+            // "file_asset.required"   => ''
+        ]);
+        if ($cek->fails()) {
+            return redirect()->back()
+                ->withErrors($cek)
+                ->with('error', 'Input Asset Error') // Kirim error ke view
+                ->withInput();          // Kirim data input sebelumnya
+        }
+        if($request->akses == '1'){
+            $akses = 'user';
+        }elseif($request->akses == '2'){
+            $akses = 'admin';
+        }
+        $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori)->first();
+        $data_edit = AssetData::find($id)->first();
+        if (!$request->hasFile('file_asset')) {
+            $image  = $data_edit->file_asset;
+            $ext    = $data_edit->type_file;
+        }else{
+            $image = $kategori->kategori_name . date('H-i-s'). '.' . $request->file_asset->extension();
+            $ext = $request->file_asset->extension();
+        }
+
+        if($request->name_aset == $data_edit->name_asset && $image == $data_edit->file_asset && $request->akses == $data_edit->akses && $request->kategori == $data_edit->kategori_asset  ){
+            return redirect()->back()->with('error', 'Asset Tidak Ada Yang Berubah');
+        }
+        DB::beginTransaction();
+        try{
+            AssetData::where('asset_id', $id)->update([
+                'name_asset'        => $request->name_aset,
+                'file_asset'        => $image,
+                'kategori_asset'    => $request->kategori,
+                'type_file'         => $ext,
+                'akses'             => $akses,
+                'user_id'           => Auth::user()->user_id,
+                'updated_at' => now(),
+            ]);
+            DB::commit();
+            if (!$request->hasFile('file_asset')) {
+                return  redirect()->back()->with('success', 'Input Asset Successful');
+            }else{
+                $request->file_asset->move(public_path('images/asset'), $image);
+                return  redirect()->back()->with('success', 'Input Asset Successful');
+            }
+
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error', 'detail: ' . $e->getMessage());
+        }
+
+    }
+
+    public function data_aset_download($filename){
+
+        $file = public_path('images/asset/'. $filename);
+
+        // dd($file);
+        // Periksa apakah file ada
+        if (!file_exists($file)) {
+            abort(404, 'File tidak ditemukan.');
+        }
+
+        return Response::download($file);
+    }
 
     public function logout(Request $request){
         auth()->logout();

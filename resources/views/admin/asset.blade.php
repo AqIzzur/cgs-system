@@ -129,7 +129,7 @@
                             @csrf
                             <div class="form-group my-2">
                                 <label for="name_aset" class="poppins-regular">Nama Asset</label>
-                                <input type="text" class="form-control" id="name_aset" name="name_aset">
+                                <input type="text" class="form-control" id="name_aset" name="name_aset" value="{{ old('name_aset') }}">
                                 @error('name_aset')
                                   <span class="text-danger font-monospace">{{ $message }}</span>
                                 @enderror
@@ -142,7 +142,7 @@
                                         <option value="" >Pilih Kategori</option>
                                         @forelse ($kategori as $kategori1) 
                                           {{-- {{ dd($kategori) }} --}}
-                                             <option value="{{ $kategori1->kategori_id }}">{{ $kategori1->kategori_name }}</option>
+                                             <option value="{{ $kategori1->kategori_id }}" {{ old('kategori') == $kategori1->kategori_id ? 'selected' : '' }}>{{ $kategori1->kategori_name }}</option>
                                         @empty
                                             <option value="">Tidak ada kategori tersedia</option>
                                         @endforelse
@@ -165,8 +165,8 @@
                                 <label for="akses" class="poppins-regular">Akses Asset</label>
                                 <select name="akses" id="akses" class="form-select">
                                   <option value="" >Pilih Akses </option>
-                                  <option value="1">Semua Pengguna</option>
-                                  <option value="2">Hanya Admin</option>
+                                  <option value="1" {{ old('akses') == '1' ? 'selected' : '' }}>Semua Pengguna</option>
+                                  <option value="2" {{ old('akses') == '2' ? 'selected' : '' }}>Hanya Admin</option>
                                 </select>
                                 @error('akses')
                                   <span class="text-danger font-monospace">{{ $message }}</span>
