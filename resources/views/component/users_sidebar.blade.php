@@ -6,9 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rasa:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('asset/css/awesome/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/font-poppins.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/font-rasa.css') }}">
     <style>
         /* Sidebar styling */
         .sidebar {
@@ -149,7 +153,7 @@
         <hr>
         {{--  --}}
         <nav class="nav flex-column">
-            <a class="nav-link @if($title == 'Dashboard User')active text-dark @endif  " href="{{ route('admin.view') }}">
+            <a class="nav-link @if($title == 'Dashboard User')active text-dark @endif  " href="{{ route('users.view') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-home  me-3"></i>
@@ -161,19 +165,19 @@
                 </div>
             </a>
 
-            <a class="nav-link @if($title == 'Data Users')active text-dark @endif  " href="{{ route('admin.users') }}">
+            <a class="nav-link @if($title == 'Asset | Users')active text-dark @endif  " href="{{ route('asset.view') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-user-gear me-3"></i>
 
                     </div>
                     <div class="col">
-                        <span class="poppins-regular">Users</span> 
+                        <span class="poppins-regular">Asset</span> 
 
                     </div>
                 </div>
             </a>
-            <a class="nav-link" href="/user">
+            {{-- <a class="nav-link" href="/user">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-icons me-3"></i>
@@ -184,7 +188,7 @@
                         
                     </div>
                 </div>
-            </a>
+            </a> --}}
             <a class="nav-link" href="/user">
                 <div class="row">
                     <div class="col-2">
@@ -259,7 +263,171 @@
             overlay.classList.remove('active');
         });
     </script>
+@if (session('info'))
+<div class="modal fade alert-modal" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info bg-opacity-50">
+                <h5 class="modal-title " id="infoModalLabel">Berhasil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3">
+                        <i class="ms-3 fa-solid fa-circle-check fa-4x" style="color: #63E6BE;"></i>
+                    </div>
+                    <div class="col ">
+                        <p class="text-capitalize my-auto fs-5 fw-bold mt-2">{{ session('info') }}</p>
 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@if (session('success'))
+<div class="modal fade alert-modal" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success bg-opacity-50">
+                <h5 class="modal-title " id="successModalLabel">Berhasil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3">
+                        <i class="ms-3 fa-solid fa-circle-check fa-4x" style="color: #63E6BE;"></i>
+                    </div>
+                    <div class="col ">
+                        <p class="text-capitalize my-auto fs-5 fw-bold mt-2">{{ session('success') }}</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@if (session('error'))
+<div class="modal fade alert-modal" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger bg-primary-50">
+                <h5 class="modal-title text-white " id="errorModalLabel">Gagal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <i class="fa-solid fa-circle-exclamation fa-4x ms-3" style="color: #ff0000;"></i>
+                    </div>
+                    <div class="col ">
+                        <p class="text-capitalize my-auto fs-5 fw-bold mt-2">{{ session('error') }}</p>
+
+                    </div>
+                    
+                {{-- <p class="text-uppercase"></p> --}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger " data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@if (session('errorlogin'))
+<div class="modal fade alert-modal" id="errorModalLogin" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger bg-primary-50">
+                <h5 class="modal-title text-white " id="errorModalLabel">Pendaftaran Gagal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <i class="fa-solid fa-circle-exclamation fa-4x ms-3" style="color: #ff0000;"></i>
+                    </div>
+                    <div class="col ">
+                        <p class="text-capitalize my-auto fs-6 fw-bold mt-2">Pendaftaran gagal: </p> 
+                        <p> {{ session('errorlogin') }}</p>
+
+                    </div>
+                    
+                {{-- <p class="text-uppercase"></p> --}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger " data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@if (session('errorAdmin'))
+<div class="modal fade alert-modal" id="errorModalAdmin" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger bg-primary-50">
+                <h5 class="modal-title text-white " id="errorModalLabel">Login Gagal</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <i class="fa-solid fa-circle-exclamation fa-4x ms-3" style="color: #ff0000;"></i>
+                    </div>
+                    <div class="col ">
+                        <h3 class="text-capitalize my-auto  fw-bold mt-2">Login gagal: </h3> 
+                        <p class=""> Detail : <span class="text-primary">{{ session('errorAdmin') }}</span></p>
+
+                    </div>
+                    
+                {{-- <p class="text-uppercase"></p> --}}
+            </div>
+            {{-- <div class="modal-footer">
+                <button type="button" class="btn btn-danger " data-bs-dismiss="modal">OK</button>
+            </div> --}}
+        </div>
+    </div>
+</div>
+@endif
+
+<!-- Bootstrap JS -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cek session flash untuk modal success
+        @if (session('success'))
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        @endif
+        @if (session('info'))
+            var successModal = new bootstrap.Modal(document.getElementById('infoModal'));
+            successModal.show();
+        @endif
+
+        // Cek session flash untuk modal error
+        @if (session('error'))
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        @endif
+        @if (session('errorlogin'))
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModalLogin'));
+            errorModal.show();
+        @endif
+        @if (session('errorAdmin'))
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModalAdmin'));
+            errorModal.show();
+        @endif
+    });
+</script>
 <script src="{{ asset('asset/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('asset/js/awesome/all.min.js') }}"></script>
 </body>

@@ -5,7 +5,9 @@
        
 }
 .card-asset{
- max-width: 200px;       
+ width: 180px;
+ /* overflow: hidden; */
+ /* position: relative;        */
 }
 .card-asset:hover{
     color: rgb(47, 47, 174);
@@ -19,7 +21,8 @@
         width:20%; 
     }
     .svg_style{
-        max-width: 100px;
+        width: 100px;
+        height: 100px;
     }
     .png-custom{
         background-color: aliceblue;
@@ -34,6 +37,19 @@
         max-width: 150px ;
     
     }
+    img-card-custom{
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        /* position: relative; */
+    }
+    .img-custom{
+        width: 100%;
+        height: 150px;
+        display: block;
+        object-fit: cover;
+        border-radius: 0px 6px 0px 0px;
+    }
 }
 
 @media screen and (max-width:414px) {
@@ -41,7 +57,7 @@
         width:50%; 
     }
     .svg_style{
-        width: 130px;
+        width: 100px;
         /* margin-top: 20px; */
 
     }

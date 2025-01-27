@@ -5,15 +5,12 @@
   .offcanvas{
       width: 50% !important;
   }
-  .active1{
+  .active2{
     background-color: #5ea0dd;
     color: #fff;
     /* border-radius: 7px; */
   }
-  .active1:hover{
-    background-color: #66b3fa;
-    color: rgb(255, 255, 46);
-  }
+
     /* border-radius: 7px; */
 
 </style>
@@ -21,7 +18,7 @@
     <div class="modal fade" id="input-dokumentasi" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header active1 ">
+          <div class="modal-header active2 ">
             <h5 class="poppins-regular">
               Input Dokumentasi
             </h5>

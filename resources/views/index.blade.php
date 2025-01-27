@@ -140,7 +140,7 @@ $tanggal = date('D d-m-Y ');
                 </div>
             </div>
         </div>
-        <a href="{{ route('main.login_admin') }}" class="text-decoration-none pb-3"><p class="text-center poppins-regular text-white mb-3">&copy; 2024 M. Izzur Rohman. All rights reserved.</p></a>
+        <a href="{{ route('main.login_admin') }}" class="text-decoration-none pb-3"><p class="text-center poppins-regular text-white mb-3">&copy; {{ date('Y') }} M. Izzur Rohman. All rights reserved.</p></a>
     </div>
 </section>
 

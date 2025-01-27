@@ -4,12 +4,12 @@
     .offcanvas{
         width: 50% !important;
     }
-    .active1{
+    .active2{
       background-color: #5ea0dd;
       color: #fff;
       border-radius: 7px;
     }
-    .active1:hover{
+    .active2:hover{
       background-color: #66b3fa;
       color: rgb(255, 225, 225);
     }
@@ -30,7 +30,7 @@
           <ul class="navbar-nav justify-content-end flex-grow-1  ">
             <li class="nav-item ">
               <a class="nav-link text-custom-sidebar
-              @if($menu == 'user')active1 @endif
+              @if($menu == 'user')active2 @endif
                p-2" aria-current="page" href="{{ route('users.user') }}">
                 <div class="row">
                   <div class="col-2">
@@ -45,7 +45,7 @@
             </li>
             <li class="nav-item ">
               <a class="nav-link text-custom-sidebar
-              @if($menu == 'absensi')active1 @endif
+              @if($menu == 'absensi')active2 @endif
                p-2" aria-current="page" href="{{ route('users.absensi') }}">
                 <div class="row">
                   <div class="col-2">
@@ -61,7 +61,7 @@
 
             <li class="nav-item">
               <a class="nav-link text-custom-sidebar
-              @if($menu == 'tugas')active1 @endif
+              @if($menu == 'tugas')active2 @endif
                p-2" href="{{ route('users.tugas') }}">
                 <div class="row">
                   <div class="col-2">

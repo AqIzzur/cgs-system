@@ -1,6 +1,74 @@
 @extends('component.sidebar')
 @section('content_sidebar')
 <style>
+        .file_asset {
+            display: none;
+        }
+        
+        /* Custom label for file input */
+        .custom-file-upload {
+            text-align: center;
+            display: inline-block;
+            padding: 5px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: rgb(0, 0, 0) ;
+            background:transparent;
+            border: 2px solid darkcyan;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Add hover effect */
+        .custom-file-upload:hover {
+            background-color: darkcyan;
+            color: #fff !important;
+            /* border-color: #004494; */
+        }
+        
+        /* Add focus effect */
+        .custom-file-upload:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .thumbnail {
+            /* width: 150px; */
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .thumbnail:hover {
+            transform: scale(1.07);
+        }
+        /* .thumbnail-custom {
+            width: 159.5px !important;
+            border-radius: 0px 5px 0px 0px;
+        } */
+        .thumbnail-custom:hover{
+            transform: scale(1.0);
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
     .triangle-button {
       width: 0;
       height: 0;
@@ -53,7 +121,15 @@
                         <div class="card bg-primary bg-opacity-50 card-asset mx-auto ">
                             <div class="png-custom">
 
-                                <img src="{{ asset('images/asset/'. $asset->file_asset) }}" alt="" class="img-png-custom">
+                                <img src="{{ asset('images/asset/'. $asset->file_asset) }}" 
+                                data-src="{{ asset('images/asset/'. $asset->file_asset) }}" 
+                                data-asset-id="{{ $asset->asset_id }}" 
+                                alt="Thumbnail{{ $asset->file_asset }}" 
+                                class="img-png-custom thumbnail rounded-top">
+
+                            </div>
+                            <div class="overlay" id="overlay-{{ $asset->asset_id }}">
+                                <img id="fullscreenImg-{{ $asset->asset_id }}" src="" alt="Fullscreen Image">
                             </div>
                             <div class="card-body">
                                 <h6 class="text-center poppins-bold text-capitalize">{{ $asset->name_asset   }} </h6>
@@ -82,7 +158,17 @@
                 @else
                             <div class="col-lg-2 col-6 mt-3">
                                 <div class="card bg-primary bg-opacity-50 card-asset mx-auto">
-                                    <img src="{{ asset('images/asset/'. $asset->file_asset) }}" alt="" class="">
+                                    <div class="img-card-custom ">
+                                        <img src="{{ asset('images/asset/'. $asset->file_asset) }}" 
+                                        data-src="{{ asset('images/asset/'. $asset->file_asset) }}" 
+                                        data-asset-id="{{ $asset->asset_id }}" 
+                                        alt="Thumbnail{{ $asset->file_asset }}" 
+                                        class="thumbnail thumbnail-custom img-custom ">
+                                    </div>
+
+                                    <div class="overlay" id="overlay-{{ $asset->asset_id }}">
+                                        <img id="fullscreenImg-{{ $asset->asset_id }}" src="" class="border border-3 border-light rounded">
+                                    </div>
                                     <div class="card-body">
                                         <h6 class="text-center poppins-bold">{{ $asset->name_asset   }}</h6>
                                     </div>
@@ -169,18 +255,20 @@
                                                         </div>
                                                         <div class="form-group d-flex flex-column my-2">
                                                           <label for="" class="poppins-regular">Asset File</label>
-                                                          <label for="file_asset" class="custom-file-upload " >File Asset</label>
-                                                          <input type="file" name="file_asset" id="file_asset" class="form-control" accept="image/*">
+                                                          {{-- <label for="file_asset" class="custom-file-upload " >File Asset</label> --}}
+                                                          <input type="file" name="file_asset" id="file_asset" class="form-control " accept="image/*" >
                                                           @error('file_asset')
                                                             <span class="text-danger font-monospace">{{ $message }}</span>
                                                           @enderror
                                                         </div>
+                                                        @php $kat = $asset->akses == 'admin' ? '2' : '1'; @endphp
                                                         <div class="form-group">
                                                             <label for="akses" class="poppins-regular">Akses Asset</label>
                                                             <select name="akses" id="akses" class="form-select">
                                                               <option value="" >Pilih Akses </option>
-                                                              <option value="1"  {{ old('akses', $asset->kategori_asset) == '1' ? 'selected' : '' }}>Semua Pengguna</option>
-                                                              <option value="2"  {{ old('akses', $asset->kategori_asset) == '2' ? 'selected' : '' }}>Hanya Admin</option>
+
+                                                              <option value="1"  {{ old('akses', $kat) == '1' ? 'selected' : '' }}>Semua Pengguna</option>
+                                                              <option value="2"  {{ old('akses', $kat) == '2' ? 'selected' : '' }}>Hanya Admin</option>
                                                             </select>
                                                             @error('akses')
                                                               <span class="text-danger font-monospace">{{ $message }}</span>
@@ -209,4 +297,29 @@
 
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.thumbnail').forEach(img => {
+        img.addEventListener('click', function () {
+            const assetId = this.getAttribute('data-asset-id');
+            const fullImg = document.querySelector(`#fullscreenImg-${assetId}`);
+            const overlay = document.querySelector(`#overlay-${assetId}`);
+            
+            fullImg.src = this.getAttribute('data-src');
+            overlay.classList.add('show');
+        });
+    });
+
+    document.querySelectorAll('.overlay').forEach(overlay => {
+        overlay.addEventListener('click', function () {
+            this.classList.remove('show');
+            this.querySelector('img').src = ""; // Hapus src untuk menghindari cache
+        });
+    });
+});
+
+
+
+
+    </script>
 @endsection

@@ -48,6 +48,12 @@ Route::get('/home', function () {
 
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'view'])->name('users.view');
+    Route::get('/asset', [UserController::class, 'asset_view'])->name('asset.view');
+    Route::prefix('asset')->group(function (){
+        Route::get('/view/{id}', [UserController::class, 'asset_user_view'])->name('asset_user.view');
+        Route::post('/view/save', [UserController::class, 'asset_user_save'])->name('asset_user.save');
+        Route::get('/download/{filename}', [UserController::class, 'asset_user_download'])->name('asset_user.download');
+    });
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 });
 

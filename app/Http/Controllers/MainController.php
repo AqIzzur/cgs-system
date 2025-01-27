@@ -85,13 +85,32 @@ class MainController extends Controller
                                     return redirect('/user/dashboard');
                 }else{
 
-                    return redirect()->back()->with(['errorlogin' => 'detail : Password salah!'])->withInput(); ;
+                    return redirect()->back()->with(['errorlogin' => 'detail : Password salah!'])->withInput(); 
                 }
-        
+            
             }else{
-                return redirect()->back()->with('errorlogin','detail : Email Belum Terdaftar')->withInput(); ;
+                $admin_khusus = user::where('email', $request->email)
+            ->where('role', 'admin')
+            ->where('akses_spesial', 'yes')
+            ->first();
+
+                if($admin_khusus){
+                    // dd($admin_khusus);
+                    if (Hash::check($request->password, $admin_khusus->password)) {
+                        
+                        Auth::login($admin_khusus);
+                        $request->session()->regenerate();
+                        return redirect()->intended('/user/dashboard');
+                    }else{
+                        return redirect()->back()->with(['errorlogin' => 'detail : Password salah!'])->withInput();
+                    }
+                }else{
+                    return redirect()->back()->with('errorlogin','detail : Email Belum Terdaftar')->withInput();
+                }
+                // return redirect()->back()->with('errorlogin','detail : Email Belum Terdaftar')->withInput();
             }
 
+            
     }
 
     public function register(){

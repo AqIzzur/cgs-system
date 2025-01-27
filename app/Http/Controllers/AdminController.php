@@ -612,7 +612,7 @@ class AdminController extends Controller
     }
 
     public function data_aset_edit(Request $request, $id){
-
+        // dd($request->file('file_asset'));
         $cek = Validator::make($request->all(), [
             "name_aset" => 'required|max:25',
             "file_asset"=> 'image|nullable|mimes:png,jpg,jpeg|max:3024'
@@ -633,14 +633,17 @@ class AdminController extends Controller
             $akses = 'admin';
         }
         $kategori = KategoriAsset::select('kategori_name')->where('kategori_id', $request->kategori)->first();
-        $data_edit = AssetData::find($id)->first();
+        $data_edit = AssetData::where('asset_id', $id)->first();
+
         if (!$request->hasFile('file_asset')) {
+        // dd($data_edit->file_asset);
             $image  = $data_edit->file_asset;
             $ext    = $data_edit->type_file;
         }else{
             $image = $kategori->kategori_name . date('H-i-s'). '.' . $request->file_asset->extension();
             $ext = $request->file_asset->extension();
         }
+        // dd($image, $ext);
 
         if($request->name_aset == $data_edit->name_asset && $image == $data_edit->file_asset && $request->akses == $data_edit->akses && $request->kategori == $data_edit->kategori_asset  ){
             return redirect()->back()->with('error', 'Asset Tidak Ada Yang Berubah');
@@ -660,6 +663,10 @@ class AdminController extends Controller
             if (!$request->hasFile('file_asset')) {
                 return  redirect()->back()->with('success', 'Input Asset Successful');
             }else{
+                $path_delete = public_path('images/asset'. $data_edit->file_asset);
+                if($path_delete == '1'){
+                    unlink($path_delete);
+                }
                 $request->file_asset->move(public_path('images/asset'), $image);
                 return  redirect()->back()->with('success', 'Input Asset Successful');
             }
