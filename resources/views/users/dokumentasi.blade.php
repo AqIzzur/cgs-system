@@ -19,6 +19,10 @@
     .mobile-view{
       display: none;
     }
+    .card-title-custom{
+      font-size: 20px;
+    }
+    
   }
   @media screen and (max-width:414px) {
     .garis-asset1{
@@ -29,6 +33,9 @@
     }
     .mobile-view{
       display: block;
+    }
+    .card-title-custom{
+      font-size: 16px;
     }
   }
 </style>
@@ -75,7 +82,9 @@
                   <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                  
+                  <form action="" method="post">
+                    <div class="form-group"></div>
+                  </form>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
                   <button class="btn btn-secondary poppins-regular" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
@@ -98,6 +107,25 @@
           </form>
           </div>
       @endif
+
+      <div class="row mt-3">
+        @forelse ( $data as $data)
+            
+        <div class="col-lg-3 col-6 my-3 ">
+                <div class="card mx-auto bg-primary bg-opacity-50 card-custom">
+                  <a href="{{ route('pdf.view', ['filename' => $data->file_path]) }}" target="_blank" class="text-decoration-none text-dark">
+                    <img src="{{ asset('images/dokumentasi/sampul/'. $data->image) }}" class="card-img-top" alt="...">
+                        <div class="card-body d-flex flex-column ">
+                            <h5 class=" text-center card-title-custom mb-2 rasa-bold">{{ $data->title }}</h5>
+                            
+                        </div>
+                      </a>
+                  
+                        </div>
+        </div>
+        @empty
+                <span class="text-center fs-6">--Data Tidak Tersedia--</span>
+        @endforelse
       
     </div>
   </div>

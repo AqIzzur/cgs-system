@@ -7,6 +7,7 @@ use App\Models\absensi;
 use App\Models\KategoriAsset;
 use App\Models\AssetData;
 use App\Models\user;
+use App\Models\Dokument;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -111,9 +112,10 @@ class UserController extends Controller
 
     public function dokumentasi_view(){
         // dd();
+        $data_dokumentasi = Dokument::select('*')->where('akses', 'user')->get();
         return view('users.dokumentasi', [
             'title'     => 'Dokumentasi | Users',
-            'cek'       => 'Coba',
+            'data'       => $data_dokumentasi,
         ]);
     }
 
