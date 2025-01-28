@@ -146,7 +146,7 @@
                                     </div>
                                     <div class="modal-footer d-flex justify-content-between">
                                         <button class="btn btn-secondary poppins-regular" data-bs-dismiss="modal"><i class="fa fa-backward"></i> Back</button>
-                                        <button type="submit" class="btn btn-primary btn-custom-table poppins-regular" ><i class="fa fa-save"></i> Save Change</button>
+                                        <button type="submit" class="btn btn-primary btn-custom-table poppins-regular" ><i class="fa fa-save"></i> Save</button>
                                         
                                       </form>
                     

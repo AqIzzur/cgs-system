@@ -19,7 +19,7 @@
       height: 600px;
       padding:40px 30px;
       background:#eee;
-      margin:auto;
+      margin: 10px auto;
       border:1px solid #fff;
       position: absolute;
       left: 0;
@@ -64,7 +64,7 @@
       width:350px;
       padding:40px 30px;
       background:#eee;
-      margin:auto;
+      margin:10px auto;
       border:1px solid #fff;
       position: absolute;
       left: 0;

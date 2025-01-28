@@ -54,6 +54,7 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
         Route::post('/view/save', [UserController::class, 'asset_user_save'])->name('asset_user.save');
         Route::get('/download/{filename}', [UserController::class, 'asset_user_download'])->name('asset_user.download');
     });
+    Route::get('/dokumentasi', [UserController::class, 'dokumentasi_view'])->name('dokumentasi.view');
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 });
 

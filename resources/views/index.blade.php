@@ -4,10 +4,10 @@
 @php
 $tanggal = date('D d-m-Y ');
 @endphp
-<section id="header" class="pt-4">
+<section id="header" class="pt-3">
     <div class="container">
         <div class="row ">
-            <div class="col-lg-6 col-md-6 col-sm-6 col mb-3 mb-md-0">
+            <div class="col-lg-6 col-md-6 col-8 col mb-md-0">
                 <div class="date rounded-start-5 rounded-end-3 bg-success bg-opacity-50 d-flex">
                     <div class="date-circle me-2 d-flex justify-content-center align-items-center bg-white">
                         <i class="fa fa-calendar-days fa-xl fa-fade"></i>
@@ -15,7 +15,7 @@ $tanggal = date('D d-m-Y ');
                     <h4 class="m-auto me-lg-3 me-2 text-tgl text-dark poppins-bold">{{ $tanggal }}</h4>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col d-flex justify-content-end">
+            <div class="col-lg-6 col-md-6 col-4 col d-flex justify-content-end">
                 <div class="date ms-auto rounded-start-3 rounded-end-5 bg-info bg-opacity-50 d-flex ">
                     <h4 class="m-auto text-dark mx-2 text-tgl poppins-bold"><span id="real-time"></span></h4>
                     <div class="date-circle d-flex justify-content-center align-items-center bg-white">
@@ -25,7 +25,7 @@ $tanggal = date('D d-m-Y ');
             </div>
         </div>
         <div class="row align-items-center text-utama">
-            <div class="col-lg-8 col-md-12 col-sm-12 pt-5 text-sm-center text-lg-start">
+            <div class="col-lg-8 col-md-12 col-sm-12 pt-1 text-sm-center text-lg-start">
                 <h2 class="text-utama2 poppins-regular">Team Creative</h2>
                 <h1 class="text-utama1 fw-bold poppins-regular">Cipta Graha Software</h1>
             </div>

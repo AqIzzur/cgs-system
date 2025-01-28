@@ -18,7 +18,7 @@
         .sidebar {
             width: 200px;
             height: 100vh;
-            background-color: #343a40;
+            background-color: #000818;
             color: white;
             position: fixed;
             top: 0;
@@ -189,7 +189,7 @@
                     </div>
                 </div>
             </a> --}}
-            <a class="nav-link" href="/user">
+            <a class="nav-link @if($title == 'Dokumentasi | Users')active text-dark @endif  " href="{{ route('dokumentasi.view') }}">
                 <div class="row">
                     <div class="col-2">
                         <i class="fa fa-folder-closed me-3"></i>
@@ -221,7 +221,7 @@
 
     <!-- Content -->
     <div class="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-info bg-opacity-50">
             <div class="container-fluid">
                 <button id="toggleSidebar" class="btn btn-transparent text-dark d-lg-none">
                     <i class="fa-solid fa-bars"></i>

@@ -108,6 +108,15 @@ class UserController extends Controller
 
         return Response::download($file);
     }
+
+    public function dokumentasi_view(){
+        // dd();
+        return view('users.dokumentasi', [
+            'title'     => 'Dokumentasi | Users',
+            'cek'       => 'Coba',
+        ]);
+    }
+
     public function logout(Request $request){
         auth()->logout();
         $request->session()->invalidate();
